@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { TrendingUp, PieChart, BarChart3, Shield, Smartphone, Users } from "lucide-react"
+// import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+// import { TrendingUp, PieChart, BarChart3, Shield, Smartphone, Users } from "lucide-react"
 import monona from "@/assets/images/monona.jpg";
 import { Navbar } from "@/components/Navbar";
 
