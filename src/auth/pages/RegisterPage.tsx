@@ -19,20 +19,26 @@ export const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
-  const onSubmit = async (data: RegisterForm) => {
-    try {
+ const onSubmit = async (data: RegisterForm) => {
+    try { 
       if (data.password !== data.confirmPassword) {
         console.log("Las contraseñas no coinciden")
         return
       }
-
-      console.log("Register attempt:", data)
-
-      localStorage.setItem("isAuthenticated", "true")
-
-      window.location.href = "/gastos"
+      const { username, email, password } = data;
+      const res = await fetch('http://localhost:3000/users',{
+        method:"POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({name:username, email, password}),
+      });
+      const json = await res.json();
+      console.log(json)
+      
     } catch (error) {
-      console.log("Error al registrarse")
+      console.log(error)
+      console.log("Error al iniciar sesión")
     }
   }
 
