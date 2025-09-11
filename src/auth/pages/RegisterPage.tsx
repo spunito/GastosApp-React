@@ -5,6 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Eye, EyeOff, Mail, Lock, User } from "lucide-react"
 import { useState } from "react"
 import monona from "@/assets/images/monona.jpg";
+import { api } from "@/api/api"
+
 
 type RegisterForm = {
   username: string
@@ -14,33 +16,33 @@ type RegisterForm = {
 }
 
 export const RegisterPage = () => {
-  const { register, handleSubmit, watch } = useForm<RegisterForm>()
-  const password = watch("password")
+  const { register, handleSubmit} = useForm<RegisterForm>()
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
- const onSubmit = async (data: RegisterForm) => {
-    try { 
+  const onSubmit = async (data: RegisterForm) => {
+    try {
+      // Validación de contraseña
       if (data.password !== data.confirmPassword) {
-        console.log("Las contraseñas no coinciden")
-        return
+        console.log("Las contraseñas no coinciden");
+        return;
       }
+
       const { username, email, password } = data;
-      const res = await fetch('http://localhost:3000/users',{
-        method:"POST",
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({name:username, email, password}),
+
+      // Request con Axios instance
+      const res = await api.post("/users/register", {
+        name: username,
+        email,
+        password,
       });
-      const json = await res.json();
-      console.log(json)
-      
+
+      console.log("Registro exitoso:", res.data);
+
     } catch (error) {
       console.log(error)
-      console.log("Error al iniciar sesión")
     }
-  }
+  };
 
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-cyan-50 to-blue-50">
@@ -150,4 +152,5 @@ export const RegisterPage = () => {
       </div>
     </div>
   )
+
 }

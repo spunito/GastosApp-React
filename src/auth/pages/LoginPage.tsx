@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Eye, EyeOff, Mail, Lock } from "lucide-react"
 import { useState } from "react"
 import monona from "@/assets/images/monona.jpg";
+import { api } from "@/api/api"
 
 type LoginForm = {
   email: string
@@ -14,19 +15,22 @@ type LoginForm = {
 export const LoginPage = () => {
   const { register, handleSubmit } = useForm<LoginForm>()
   const [showPassword, setShowPassword] = useState(false)
-
+  
   const onSubmit = async (data: LoginForm) => {
     try {
-      // Aquí puedes implementar tu lógica de autenticación
-      console.log("Login attempt:", data)
 
-      // Simular autenticación exitosa
-      // En una app real, harías una llamada a tu API
-      localStorage.setItem("isAuthenticated", "true")
+      const {email , password} = data;
 
-      window.location.href = "/gastos"
+      const res = await api.post("/users/login", {
+        email,
+        password});
+
+      console.log("Login exitoso:", res.data);
+      
+
+
     } catch (error) {
-      console.log("Error al iniciar sesión")
+      console.log("Error al iniciar sesión" + error)
     }
   }
 
