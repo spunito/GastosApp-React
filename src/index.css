@@ -1,52 +1,69 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: "Fira Code", "Courier New", monospace;
 
   /* Color tokens */
-  --color-background: #ffffff;
-  --color-foreground: #0f172a;
-  --color-muted: #f1f5f9;
-  --color-muted-foreground: #64748b;
-  --color-border: #e2e8f0;
-  --color-primary: #0891b2;
+  --color-background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+  --color-foreground: #4004a0;
+  --color-muted: #f0fdf4;
+  --color-muted-foreground: #475569;
+  --color-border: #86efac;
+  --color-primary: #16a34a;
   --color-primary-foreground: #ffffff;
-  --color-secondary: #f97316;
+  --color-secondary: #22c55e;
   --color-secondary-foreground: #ffffff;
-  --color-accent: #f1f5f9;
+  --color-accent: #4ade80;
   --color-accent-foreground: #0f172a;
   --color-destructive: #ef4444;
   --color-destructive-foreground: #ffffff;
-  --color-card: #ffffff;
+  --color-card: rgba(255, 255, 255, 0.9);
   --color-card-foreground: #0f172a;
   --color-popover: #ffffff;
   --color-popover-foreground: #0f172a;
-  --color-input: #ffffff;
-  --color-ring: #0891b2;
+  --color-input: rgba(240, 253, 244, 0.8);
+  --color-ring: rgba(22, 163, 74, 0.3);
+
+  /* Sidebar-specific tokens with green theme */
+  --color-sidebar: #15803d;
+  --color-sidebar-foreground: #ffffff;
+  --color-sidebar-border: #166534;
+  --color-sidebar-accent: #16a34a;
+  --color-sidebar-accent-foreground: #ffffff;
+  --color-sidebar-primary: #22c55e;
+  --color-sidebar-primary-foreground: #ffffff;
 
   /* Border radius */
-  --radius: 0.5rem;
+  --radius: 0.75rem;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-background: #020617;
-    --color-foreground: #f8fafc;
+    --color-background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    --color-foreground: #f0fdf4;
     --color-muted: #1e293b;
     --color-muted-foreground: #94a3b8;
     --color-border: #334155;
-    --color-primary: #0891b2;
+    --color-primary: #b518d4ff;
     --color-primary-foreground: #ffffff;
-    --color-secondary: #f97316;
+    --color-secondary: #4004a0;
     --color-secondary-foreground: #ffffff;
-    --color-accent: #1e293b;
-    --color-accent-foreground: #f8fafc;
-    --color-card: #020617;
-    --color-card-foreground: #f8fafc;
-    --color-popover: #020617;
-    --color-popover-foreground: #f8fafc;
-    --color-input: #1e293b;
+    --color-accent: #166534;
+    --color-accent-foreground: #f0fdf4;
+    --color-card: rgba(30, 41, 59, 0.9);
+    --color-card-foreground: #f0fdf4;
+    --color-popover: #0f172a;
+    --color-popover-foreground: #f0fdf4;
+    --color-input: rgba(30, 41, 59, 0.8);
+
+    --color-sidebar: #14532d;
+    --color-sidebar-foreground: #f0fdf4;
+    --color-sidebar-border: #166534;
+    --color-sidebar-accent: #16a34a;
+    --color-sidebar-accent-foreground: #f0fdf4;
+    --color-sidebar-primary: #22c55e;
+    --color-sidebar-primary-foreground: #f0fdf4;
   }
 }
 
@@ -58,4 +75,19 @@ body {
   color: rgb(var(--color-foreground));
   background: rgb(var(--color-background));
   font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+/* Modern glass morphism effects */
+.glass-effect {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Updated gradient text to green theme */
+.gradient-text {
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
