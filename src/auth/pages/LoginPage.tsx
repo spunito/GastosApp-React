@@ -3,30 +3,43 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Eye, EyeOff, Mail, Lock } from "lucide-react"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import monona from "@/assets/images/monona.jpg";
 import { api } from "@/api/api"
+import { AuthContext } from "@/context/auth/AuthContext"
+import { useNavigate } from "react-router"
+import type { LoginForm, LoginResponse } from "@/types/auth"
 
-type LoginForm = {
-  email: string
-  password: string
-}
+
 
 export const LoginPage = () => {
+
   const { register, handleSubmit } = useForm<LoginForm>()
   const [showPassword, setShowPassword] = useState(false)
+  const {dispatch , state} = useContext(AuthContext);
+  const navigate = useNavigate();
   
   const onSubmit = async (data: LoginForm) => {
     try {
 
       const {email , password} = data;
 
-      const res = await api.post("/users/login", {
+      const res = await api.post<LoginResponse>("/users/login", {
         email,
         password});
 
-      console.log("Login exitoso:", res.data);
-      
+      dispatch({
+        type: 'LOGIN',
+        payload: {
+          name: res.data.user.name,       
+          token: res.data.access_token,
+          id: res.data.user.id,
+          email: res.data.user.email
+        }
+      });
+      console.log(state)
+
+      navigate('/dashboard');
 
 
     } catch (error) {
