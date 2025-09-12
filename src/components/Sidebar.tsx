@@ -1,18 +1,29 @@
 import { Home, Plus, LogOut,TrendingUp } from "lucide-react"
 import { Button } from "./ui/button"
 import { cn } from "../lib/utils"
+import { useContext } from "react"
+import { AuthContext } from "@/context/auth/AuthContext"
+import { useNavigate } from "react-router"
 
 interface SidebarProps {
   activeSection: string
   onSectionChange: (section: string) => void
-  onLogout: () => void
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange, onLogout }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange, }) => {
   const menuItems = [
     { id: "general", label: "General", icon: Home },
     { id: "add-expense", label: "Agregar Gastos", icon: Plus },
   ]
+  const {dispatch , state } =useContext(AuthContext)
+  const navigate = useNavigate();
+  console.log(state)
+  const onLogout =()=> {
+
+    dispatch({type:'logout'})
+    navigate('/',{replace:true})
+
+  }
 
   return (
     <div className="w-72 h-screen bg-green-800 flex flex-col shadow-xl border-r border-green-700">
@@ -24,6 +35,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
           <div>
             <h2 className="text-2xl font-bold text-white">GastosApp</h2>
             <p className="text-sm text-green-200">Gestión Financiera</p>
+            <p className="text-sm text-green-200">Hola, <b>{state.user?.name}</b></p>
           </div>
         </div>
       </div>

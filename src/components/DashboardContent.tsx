@@ -186,7 +186,7 @@ export const DashboardContent: React.FC<DashboardContentProps> = ({ activeSectio
       </div>
 
       {/* Quick Actions */}
-      <div className="mt-8">
+      {/* <div className="mt-8">
         <Card>
           <CardHeader>
             <CardTitle>Acciones Rápidas</CardTitle>
@@ -208,7 +208,7 @@ export const DashboardContent: React.FC<DashboardContentProps> = ({ activeSectio
             </div>
           </CardContent>
         </Card>
-      </div>
+      </div> */}
     </div>
   )
 }
