@@ -6,31 +6,26 @@ import { Eye, EyeOff, Mail, Lock, User } from "lucide-react"
 import { useState } from "react"
 import monona from "@/assets/images/monona.jpg";
 import { api } from "@/api/api"
+import type { RegisterForm } from "@/types/auth"
 
 
-type RegisterForm = {
-  username: string
-  email: string
-  password: string
-  confirmPassword: string
-}
+
 
 export const RegisterPage = () => {
   const { register, handleSubmit} = useForm<RegisterForm>()
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [incorrectPassword, setIncorrectPassword] = useState(false)
 
   const onSubmit = async (data: RegisterForm) => {
     try {
       // Validación de contraseña
       if (data.password !== data.confirmPassword) {
-        console.log("Las contraseñas no coinciden");
+        setIncorrectPassword(true);
         return;
       }
-
+      setIncorrectPassword(false);
       const { username, email, password } = data;
-
-      // Request con Axios instance
       const res = await api.post("/users/register", {
         name: username,
         email,
@@ -108,6 +103,9 @@ export const RegisterPage = () => {
                   >
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
+                  {incorrectPassword && (
+                    <p className="text-red-600 text-sm mt-1">Las contraseñas no coinciden</p>
+                  )}
                 </div>
               </div>
 
@@ -128,6 +126,9 @@ export const RegisterPage = () => {
                   >
                     {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
+                  {incorrectPassword && (
+                    <p className="text-red-600 text-sm mt-1">Las contraseñas no coinciden</p>
+                  )}
                 </div>
               </div>
 
