@@ -1,4 +1,4 @@
-import { Home, Plus, LogOut,TrendingUp } from "lucide-react"
+import { Home, Plus, LogOut,TrendingUp, DollarSign, History } from "lucide-react"
 import { Button } from "./ui/button"
 import { cn } from "../lib/utils"
 import { useContext } from "react"
@@ -9,13 +9,14 @@ interface SidebarProps {
   onSectionChange: (section: string) => void
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange, }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange  }) => {
   const menuItems = [
     { id: "general", label: "General", icon: Home },
     { id: "add-expense", label: "Agregar Gastos", icon: Plus },
+    { id: "add-income", label: "Agregar Ingresos", icon: DollarSign },
+    { id: "expense-history", label: "Historial de Gastos", icon: History },
   ]
   const {onLogout , state} =useContext(AuthContext)
-  
   
 
   return (
@@ -27,8 +28,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
           </div>
           <div>
             <h2 className="text-2xl font-bold text-white">GastosApp</h2>
-            <p className="text-sm text-green-200">Gestión Financiera</p>
-            <p className="text-sm text-green-200">Hola, <b>{state.user?.name}</b></p>
+            <p className="text-sm text-green-200">Gestión Financiera {state.user?.name}</p>
           </div>
         </div>
       </div>
@@ -77,3 +77,4 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
     </div>
   )
 }
+
