@@ -3,7 +3,6 @@ import { Button } from "./ui/button"
 import { cn } from "../lib/utils"
 import { useContext } from "react"
 import { AuthContext } from "@/context/auth/AuthContext"
-import { useNavigate } from "react-router"
 
 interface SidebarProps {
   activeSection: string
@@ -15,15 +14,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
     { id: "general", label: "General", icon: Home },
     { id: "add-expense", label: "Agregar Gastos", icon: Plus },
   ]
-  const {dispatch , state } =useContext(AuthContext)
-  const navigate = useNavigate();
-  console.log(state)
-  const onLogout =()=> {
-
-    dispatch({type:'logout'})
-    navigate('/',{replace:true})
-
-  }
+  const {onLogout , state} =useContext(AuthContext)
+  
+  
 
   return (
     <div className="w-72 h-screen bg-green-800 flex flex-col shadow-xl border-r border-green-700">

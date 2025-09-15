@@ -5,48 +5,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Eye, EyeOff, Mail, Lock } from "lucide-react"
 import { useContext, useState } from "react"
 import monona from "@/assets/images/monona.jpg";
-import { api } from "@/api/api"
 import { AuthContext } from "@/context/auth/AuthContext"
-import { useNavigate } from "react-router"
-import type { LoginForm, LoginResponse } from "@/types/auth"
-
-
+import type { LoginForm } from "@/types/auth"
 
 export const LoginPage = () => {
 
   const { register, handleSubmit } = useForm<LoginForm>()
   const [showPassword, setShowPassword] = useState(false)
-  const {dispatch , state} = useContext(AuthContext);
-  const navigate = useNavigate();
+  const {onLogin} = useContext(AuthContext);
   
-  const onSubmit = async (data: LoginForm) => {
-    try {
-
-      const {email , password} = data;
-
-      const res = await api.post<LoginResponse>("/users/login", {
-        email,
-        password});
-
-      dispatch({
-        type: 'LOGIN',
-        payload: {
-          name: res.data.user.name,       
-          token: res.data.access_token,
-          id: res.data.user.id,
-          email: res.data.user.email
-        }
-      });
-      console.log(state)
-
-      navigate('/dashboard');
-
-
-    } catch (error) {
-      console.log("Error al iniciar sesión" + error)
-    }
-  }
-
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-cyan-50 to-blue-50">
       <div className="w-1/2 relative h-screen overflow-hidden">
@@ -67,7 +34,7 @@ export const LoginPage = () => {
             <p className="text-muted-foreground text-center text-pretty">Inicia sesión en tu cuenta</p>
           </CardHeader>
           <CardContent className="space-y-6">
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={handleSubmit(onLogin)} className="space-y-6">
               <div className="space-y-2">
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />

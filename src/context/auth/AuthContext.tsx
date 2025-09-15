@@ -1,3 +1,4 @@
+import type { LoginForm } from '@/types/auth';
 import { createContext } from 'react';
 
 // Definición de tipos para el contexto de autenticación
@@ -14,6 +15,8 @@ export const initialAuthState: AuthState = {
 export type AuthContextProps = {
   state: AuthState;
   dispatch: React.Dispatch<any>;
+  onLogin: (data:LoginForm) => Promise<void>;
+  onLogout: () => void;
 }
 
 export const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
