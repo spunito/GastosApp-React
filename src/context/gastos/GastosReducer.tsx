@@ -1,7 +1,7 @@
 import type { IncomeState } from './GastosContext';
 
 type AuthAction =
-  | { type: 'ADD_EXPENSE'; payload: { name: string; token: string , id: string; email: string;} }
+  | { type: 'ADD_EXPENSE'; payload: { id:string,category:string ,description:string ,amount:number,date:string}}
   | { type: 'REMOVE_EXPENSE' };
 
 
@@ -10,6 +10,7 @@ export const GastosReducer = (state: IncomeState, action: AuthAction): IncomeSta
     case 'ADD_EXPENSE':
       return {
         ...state,
+        gastos: [...state.gastos , action.payload]
         
       };
     case 'REMOVE_EXPENSE':

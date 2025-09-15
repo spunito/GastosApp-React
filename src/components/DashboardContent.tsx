@@ -2,13 +2,23 @@ import type React from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card"
 import { Button } from "./ui/button"
 import { TrendingUp, TrendingDown, DollarSign, CreditCard, PieChart, Calendar, Plus } from "lucide-react"
+import { useContext } from "react"
+import { GastosContext } from "@/context/gastos/GastosContext"
+import { useForm } from "react-hook-form"
+import type { GastosForm } from "@/types/gastos"
 
 interface DashboardContentProps {
   activeSection: string
 }
 
 export const DashboardContent: React.FC<DashboardContentProps> = ({ activeSection }) => {
+  const { Add_Expense } = useContext(GastosContext);
+  const { handleSubmit, register } =  useForm<GastosForm>()
   if (activeSection === "add-expense") {
+
+
+
+
     return (
       <div className="p-8">
         <div className="max-w-2xl">
@@ -20,12 +30,17 @@ export const DashboardContent: React.FC<DashboardContentProps> = ({ activeSectio
               <CardDescription>Ingresa los detalles de tu nuevo gasto</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
+
+              <form onSubmit={handleSubmit(Add_Expense)} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-foreground mb-2">Descripción</label>
+                
                 <input
+                  {...register("description")}
                   type="text"
                   className="w-full p-3 border border-border rounded-lg bg-input text-foreground"
                   placeholder="Ej: Almuerzo en restaurante"
+                  
                 />
               </div>
 
@@ -33,6 +48,7 @@ export const DashboardContent: React.FC<DashboardContentProps> = ({ activeSectio
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">Monto</label>
                   <input
+                    {...register("amount")}
                     type="number"
                     className="w-full p-3 border border-border rounded-lg bg-input text-foreground"
                     placeholder="0.00"
@@ -40,12 +56,15 @@ export const DashboardContent: React.FC<DashboardContentProps> = ({ activeSectio
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">Categoría</label>
-                  <select className="w-full p-3 border border-border rounded-lg bg-input text-foreground">
-                    <option>Alimentación</option>
-                    <option>Transporte</option>
-                    <option>Entretenimiento</option>
-                    <option>Salud</option>
-                    <option>Otros</option>
+                  <select 
+                  {...register("category")}
+                  className="w-full p-3 border border-border rounded-lg bg-input text-foreground">
+                    <option value=''>Selecciona una categoría</option>
+                    <option value='Alimentación'>Alimentación</option>
+                    <option value='Transporte'>Transporte</option>
+                    <option value='Entretenimiento'>Entretenimiento</option>
+                    <option value='Salud'>Salud</option>
+                    <option value='Otros'>Otros</option>
                   </select>
                 </div>
               </div>
@@ -55,9 +74,11 @@ export const DashboardContent: React.FC<DashboardContentProps> = ({ activeSectio
                 <input type="date" className="w-full p-3 border border-border rounded-lg bg-input text-foreground" />
               </div>
 
-              <Button className="w-full mt-6">Guardar Gasto</Button>
+              <Button className="w-full mt-6 cursor-pointer" type="submit">Guardar Gasto</Button>
+              </form>
             </CardContent>
           </Card>
+          
         </div>
       </div>
     )

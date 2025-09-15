@@ -1,9 +1,10 @@
+import type { GastosForm } from '@/types/gastos';
 import { createContext } from 'react';
 
 // Definición de tipos para el contexto de autenticación
 export type IncomeState = {
   ingresos: number;
-  gastos: {category:string ,description:string ,amount:number,date:string}[];
+  gastos: {id:string, category:string ,description:string ,amount:number,date:string}[];
   presupuesto: number;
   balance: number;
 }
@@ -16,9 +17,10 @@ export const initialGastosState: IncomeState = {
 
 }
 
-export type AuthContextProps = {
+export type GastosContextProps = {
   state: IncomeState;
   dispatch: React.Dispatch<any>;
+  Add_Expense:(data:GastosForm) => void;
 }
 
-export const GastosContext = createContext<AuthContextProps>({} as AuthContextProps);
+export const GastosContext = createContext<GastosContextProps>({} as GastosContextProps);
