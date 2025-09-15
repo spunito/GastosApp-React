@@ -7,6 +7,7 @@ import { useState } from "react"
 import monona from "@/assets/images/monona.jpg";
 import { api } from "@/api/api"
 import type { RegisterForm } from "@/types/auth"
+import { useNavigate } from "react-router"
 
 
 
@@ -16,6 +17,7 @@ export const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [incorrectPassword, setIncorrectPassword] = useState(false)
+  const navigate = useNavigate();
 
   const onSubmit = async (data: RegisterForm) => {
     try {
@@ -31,6 +33,7 @@ export const RegisterPage = () => {
         email,
         password,
       });
+      navigate('/login');
 
       console.log("Registro exitoso:", res.data);
 
