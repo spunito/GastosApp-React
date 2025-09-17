@@ -25,6 +25,7 @@ export const GastosReducer = (state: IncomeState, action: AuthAction): IncomeSta
           balance: totalIngresos - totalGastos  // Actualizar el balance  
         }
         case 'REMOVE_EXPENSE':
+          GastosReducer.map((gasto) => gasto.id !== action.payload);
           return {
             ...state
           };
