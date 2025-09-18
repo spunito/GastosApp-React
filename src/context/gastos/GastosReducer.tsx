@@ -3,7 +3,8 @@ import type { IncomeState } from './GastosContext';
 type AuthAction =
   | { type: 'ADD_EXPENSE'; payload: { id:string,category:string ,description:string ,amountGastos:number,date:string}}
   | { type: 'ADD_INCOME'; payload: {id:string, title:string , category:string ,description:string ,amountIngresos:number,date:string}}
-  | { type: 'REMOVE_EXPENSE' };
+  | { type: 'REMOVE_EXPENSE' ; payload : { id: string } }
+  | { type: 'ALL_EXPENSES'};
 
 
 export const GastosReducer = (state: IncomeState, action: AuthAction): IncomeState => {
@@ -25,10 +26,15 @@ export const GastosReducer = (state: IncomeState, action: AuthAction): IncomeSta
           balance: totalIngresos - totalGastos  // Actualizar el balance  
         }
         case 'REMOVE_EXPENSE':
-          GastosReducer.map((gasto) => gasto.id !== action.payload);
+          const updatedGastos = state.gastos.filter(gasto => gasto.id !== action.payload.id);
+          const totalGastosAfterRemoval = updatedGastos.reduce((acc, gasto) => acc + gasto.amountGastos, 0);
+          const totalIngresosAfterRemoval = state.ingresos.reduce((acc, ingreso) => acc + ingreso.amountIngresos, 0);
           return {
-            ...state
+            ...state,
+            gastos: updatedGastos,
+            balance: totalIngresosAfterRemoval - totalGastosAfterRemoval // Actualizar el balance
           };
+        case 'ALL_EXPENSES':
     default:
       return state;
   }
