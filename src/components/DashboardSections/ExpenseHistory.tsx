@@ -1,6 +1,8 @@
 import { Trash2, Edit } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CardContent, Card, CardHeader, CardDescription, CardTitle } from '@/components/ui/card';
+import { useContext } from 'react';
+import { GastosContext } from '@/context/gastos/GastosContext';
 
 export const ExpenseHistory = () => {
   const mockExpenses = [
@@ -46,6 +48,8 @@ export const ExpenseHistory = () => {
       },
     ]
 
+    const {state} = useContext(GastosContext);
+
     return (
       <div className="p-8">
         <div className="mb-8">
@@ -86,6 +90,7 @@ export const ExpenseHistory = () => {
                     <Button variant="outline" size="sm" className="h-9 w-9 p-0 bg-transparent">
                       <Edit className="h-4 w-4" />
                     </Button>
+                    <p></p>
                     <Button
                       variant="outline"
                       size="sm"

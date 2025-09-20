@@ -27,6 +27,7 @@ export const GastosReducer = (state: IncomeState, action: AuthAction): IncomeSta
         }
         case 'REMOVE_EXPENSE':
           const updatedGastos = state.gastos.filter(gasto => gasto.id !== action.payload.id);
+          
           const totalGastosAfterRemoval = updatedGastos.reduce((acc, gasto) => acc + gasto.amountGastos, 0);
           const totalIngresosAfterRemoval = state.ingresos.reduce((acc, ingreso) => acc + ingreso.amountIngresos, 0);
           return {
