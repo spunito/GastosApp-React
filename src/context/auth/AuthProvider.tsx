@@ -1,4 +1,5 @@
-import { useReducer } from 'react';
+// src/context/AuthProvider.tsx
+import { useEffect, useReducer } from 'react';
 import { AuthReducer } from './AuthReducer';
 import { AuthContext, initialAuthState } from './AuthContext';
 import type { LoginForm, LoginResponse } from '@/types/auth';
@@ -13,50 +14,88 @@ export const AuthProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(AuthReducer, initialAuthState);
   const navigate = useNavigate();
 
-    const onLogin = async (data: LoginForm) => {
+  // 1️⃣ Recuperar sesión al cargar la app
+  useEffect(() => {
+    const fetchSession = async () => {
+      try {
+        const res = await api.get<LoginResponse>('/users/session'); // backend lee cookie refreshToken
+        dispatch({
+          type: 'LOGIN',
+          payload: {
+            name: res.data.user.name,
+            token: res.data.access_token,
+            id: res.data.user.id,
+            email: res.data.user.email,
+          },
+        });
+      } catch (err) {
+
+        dispatch({ type: 'LOGOUT' });
+      }
+    };
+
+    fetchSession();
+  }, []);
+
+  // 2️⃣ Interceptor para enviar accessToken en cada request
+  useEffect(() => {
+    const interceptor = api.interceptors.request.use((config) => {
+      if (state.user?.token) {
+        config.headers = config.headers || {};
+        config.headers.Authorization = `Bearer ${state.user.token}`;
+      }
+      return config;
+    });
+
+    return () => {
+      api.interceptors.request.eject(interceptor);
+    };
+  }, [state.user?.token]);
+
+  // 3️⃣ Login
+  const onLogin = async (data: LoginForm) => {
     try {
-
-      const {email , password} = data;
-
-      const res = await api.post<LoginResponse>("/users/login", {
-        email,
-        password});
+      const { email, password } = data;
+      const res = await api.post<LoginResponse>('/users/login', { email, password });
 
       dispatch({
         type: 'LOGIN',
         payload: {
-          name: res.data.user.name,       
+          name: res.data.user.name,
           token: res.data.access_token,
           id: res.data.user.id,
-          email: res.data.user.email
-        }
+          email: res.data.user.email,
+        },
       });
-      
-      console.log(state)
 
       navigate('/dashboard');
-
     } catch (error) {
-      console.log("Error al iniciar sesión" + error)
+      console.log('Error al iniciar sesión', error);
     }
+  };
+
+  // 4️⃣ Logout
+ const onLogout = async () => {
+  try {
+    await api.post("/users/logout", {}, { withCredentials: true });
+  } catch (err) {
+    console.error("Error al cerrar sesión", err);
+  } finally {
+    dispatch({ type: 'LOGOUT' });
+    navigate('/', { replace: true });
   }
-
-  const onLogout = () => {
-
-    dispatch({type:'LOGOUT'})
-    navigate('/',{replace:true})
-
-  }
-  
+};
 
   return (
-    <AuthContext.Provider value={{
-      state,
-      dispatch,
-      onLogin,
-      onLogout
-    }}>
+    <AuthContext.Provider
+      value={{
+        state,
+        dispatch,
+        onLogin,
+        onLogout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
-}
+};
