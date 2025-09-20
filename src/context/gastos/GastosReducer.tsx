@@ -4,7 +4,8 @@ type AuthAction =
   | { type: 'ADD_EXPENSE'; payload: { id:string,category:string ,description:string ,amountGastos:number,date:string}}
   | { type: 'ADD_INCOME'; payload: {id:string, title:string , category:string ,description:string ,amountIngresos:number,date:string}}
   | { type: 'REMOVE_EXPENSE' ; payload : { id: string } }
-  | { type: 'ALL_EXPENSES'};
+  | { type: 'LOAD_DATA'; payload: { gastos: IncomeState['gastos'], ingresos: IncomeState['ingresos'] } };
+
 
 
 export const GastosReducer = (state: IncomeState, action: AuthAction): IncomeState => {
@@ -16,16 +17,17 @@ export const GastosReducer = (state: IncomeState, action: AuthAction): IncomeSta
         ...state,
         gastos: newGastos
       };
-      case 'ADD_INCOME':
+
+    case 'ADD_INCOME':
         const newIngresos = [...state.ingresos, action.payload];
-        const totalIngresos = newIngresos.reduce((acc, ingreso) => acc + ingreso.amountIngresos, 0);
-        const totalGastos = state.gastos.reduce((acc, gasto) => acc + gasto.amountGastos, 0);
+        const totalIngresosAfterAdd = newIngresos.reduce((acc, ingreso) => acc + ingreso.amountIngresos, 0);
+        const totalGastosCurrent = state.gastos.reduce((acc, gasto) => acc + gasto.amountGastos, 0);
         return {
           ...state,
           ingresos: newIngresos,
-          balance: totalIngresos - totalGastos  // Actualizar el balance  
+          balance: totalIngresosAfterAdd - totalGastosCurrent  // Actualizar el balance  
         }
-        case 'REMOVE_EXPENSE':
+    case 'REMOVE_EXPENSE':
           const updatedGastos = state.gastos.filter(gasto => gasto.id !== action.payload.id);
           
           const totalGastosAfterRemoval = updatedGastos.reduce((acc, gasto) => acc + gasto.amountGastos, 0);
@@ -35,7 +37,16 @@ export const GastosReducer = (state: IncomeState, action: AuthAction): IncomeSta
             gastos: updatedGastos,
             balance: totalIngresosAfterRemoval - totalGastosAfterRemoval // Actualizar el balance
           };
-        case 'ALL_EXPENSES':
+
+    case 'LOAD_DATA':
+      const totalIngresos = action.payload.ingresos.reduce((acc:any, ingreso:any) => acc + ingreso.amountIngresos, 0);
+      const totalGastos = action.payload.gastos.reduce((acc:any, gasto:any) => acc + gasto.amountGastos, 0);
+      return {
+        ...state,
+        gastos: action.payload.gastos,
+        ingresos: action.payload.ingresos,
+        balance: totalIngresos - totalGastos,
+      };
     default:
       return state;
   }
