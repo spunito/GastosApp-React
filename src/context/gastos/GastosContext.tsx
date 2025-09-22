@@ -3,8 +3,8 @@ import { createContext } from 'react';
 
 // Definición de tipos para el contexto de autenticación
 export type IncomeState = {
-  ingresos: {title:string, id:string, category:string ,description:string ,amountIngresos:number,date:string}[];
-  gastos: {id:string, category:string ,description:string ,amountGastos:number,date:string}[];
+  ingresos: {id:string, title:string, description:string ,amount:number,date:string}[];
+  gastos: {id:string, category:string ,description:string ,amount:number,date:string}[];
   presupuesto: number;
   balance: number;
 }

@@ -39,7 +39,7 @@ export const AddExpense = () => {
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">Monto</label>
                   <input
-                    {...register("amountGastos")}
+                    {...register("amount")}
                     type="number"
                     className="w-full p-3 border border-border rounded-lg bg-input text-foreground"
                     placeholder="0.00"
