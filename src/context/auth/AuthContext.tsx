@@ -16,7 +16,8 @@ export type AuthContextProps = {
   state: AuthState;
   dispatch: React.Dispatch<any>;
   onLogin: (data:LoginForm) => Promise<void>;
-  onLogout: () => void;
+  onLogout: () => Promise<void>;
+  loadUserData: () => Promise<{ gastos: any[], ingresos: any[] }>;
 }
 
 export const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);

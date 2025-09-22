@@ -1,5 +1,5 @@
-// src/context/AuthProvider.tsx
-import { useEffect, useReducer } from 'react';
+// AuthProvider.tsx - TIPAR EXPLÍCITAMENTE
+import { useEffect, useReducer, useCallback } from 'react';
 import { AuthReducer } from './AuthReducer';
 import { AuthContext, initialAuthState } from './AuthContext';
 import type { LoginForm, LoginResponse } from '@/types/auth';
@@ -14,11 +14,36 @@ export const AuthProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(AuthReducer, initialAuthState);
   const navigate = useNavigate();
 
+  const loadUserData = useCallback(async (): Promise<{ gastos: any[], ingresos: any[] }> => {
+    if (!state.user?.token) {
+      return { gastos: [] as any[], ingresos: [] as any[] };
+    }
+
+    try {
+      const [gastosRes, ingresosRes] = await Promise.all([
+      api.get('/gastos', {
+        headers: { Authorization: `Bearer ${state.user.token}` } 
+      }),
+      api.get('/ingresos', {
+        headers: { Authorization: `Bearer ${state.user.token}` } 
+      })
+      ]);
+
+      return {
+        gastos: (gastosRes.data as any[]) || ([] as any[]),
+        ingresos: (ingresosRes.data as any[]) || ([] as any[])
+      };
+    } catch (error) {
+      console.error('Error cargando datos del usuario:', error);
+      return { gastos: [] as any[], ingresos: [] as any[] };
+    }
+  }, [state.user?.token]);
+
   // 1️⃣ Recuperar sesión al cargar la app
   useEffect(() => {
     const fetchSession = async () => {
       try {
-        const res = await api.get<LoginResponse>('/users/session'); // backend lee cookie refreshToken
+        const res = await api.get<LoginResponse>('/users/session');
         dispatch({
           type: 'LOGIN',
           payload: {
@@ -29,7 +54,6 @@ export const AuthProvider = ({ children }: Props) => {
           },
         });
       } catch (err) {
-
         dispatch({ type: 'LOGOUT' });
       }
     };
@@ -75,16 +99,16 @@ export const AuthProvider = ({ children }: Props) => {
   };
 
   // 4️⃣ Logout
- const onLogout = async () => {
-  try {
-    await api.post("/users/logout", {}, { withCredentials: true });
-  } catch (err) {
-    console.error("Error al cerrar sesión", err);
-  } finally {
-    dispatch({ type: 'LOGOUT' });
-    navigate('/', { replace: true });
-  }
-};
+  const onLogout = async () => {
+    try {
+      await api.post("/users/logout", {}, { withCredentials: true });
+    } catch (err) {
+      console.error("Error al cerrar sesión", err);
+    } finally {
+      dispatch({ type: 'LOGOUT' });
+      navigate('/', { replace: true });
+    }
+  };
 
   return (
     <AuthContext.Provider
@@ -93,6 +117,7 @@ export const AuthProvider = ({ children }: Props) => {
         dispatch,
         onLogin,
         onLogout,
+        loadUserData,
       }}
     >
       {children}

@@ -1,7 +1,7 @@
 import { useContext, useEffect, useReducer } from 'react';
 import { initialGastosState, GastosContext } from './GastosContext';
 import { GastosReducer } from './GastosReducer';
-import type { GastosForm, IngresoForm, UserSession } from '@/types/gastos';
+import type { GastosForm, IngresoForm} from '@/types/gastos';
 import Swal from 'sweetalert2';
 import { api } from '@/api/api';
 import { AuthContext } from '../auth/AuthContext';
@@ -13,60 +13,30 @@ interface Props {
 
 export const GastosProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(GastosReducer, initialGastosState);
-  const {state : authState} =useContext(AuthContext);
+  const {state : authState ,loadUserData} =useContext(AuthContext);
+  const token = authState.user?.token
+ 
+
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        if (!authState.user?.token) return;
+    const fetchData = async () => {
+      if (!authState.user?.token) return;
 
-        const [gastosRes, ingresosRes] = await Promise.all([
-          api.get('/gastos'),
-          api.get('/ingresos')
-        ]);
-
-        // Mapear datos del backend (que usan 'amount') a tu estructura frontend
-        const gastosMappeados = gastosRes.data.map((gasto: any) => ({
-          id: gasto.id,
-          category: gasto.category,
-          description: gasto.description,
-          amountGastos: gasto.amount, // Mapear backend.amount -> frontend.amountGastos
-          date: gasto.date
-        }));
-
-        const ingresosMappeados = ingresosRes.data.map((ingreso: any) => ({
-          id: ingreso.id,
-          title: ingreso.title,
-          category: ingreso.category,
-          description: ingreso.description,
-          amountIngresos: ingreso.amount, // Mapear backend.amount -> frontend.amountIngresos
-          date: ingreso.date
-        }));
-
-        dispatch({
-          type: 'LOAD_DATA',
-          payload: {
-            gastos: gastosMappeados,
-            ingresos: ingresosMappeados,
-          },
-        });
-      } catch (err) {
-        console.error('Error al cargar datos:', err);
-        Swal.fire({
-          title: "Error",
-          text: "No se pudieron cargar los datos",
-          icon: "error",
-          confirmButtonText: "Aceptar",
-        });
-      }
+      const data = await loadUserData(); // ← LLAMAR DIRECTAMENTE AL CALLBACK
+      console.log(data.gastos , data.ingresos)
+      
+      dispatch({
+        type: 'LOAD_DATA',
+        payload: data,
+      });
     };
 
-    loadData();
-  }, [authState.user?.token]);
+    fetchData();
+  }, [authState.user?.token, loadUserData]);
 
-  const Add_Expense = (data: GastosForm) => {
+  const Add_Expense = async(data: GastosForm) => {
 
-    const { category, description, amountGastos } = data;
-    if (amountGastos <= 0) {
+    const { category, description, amount } = data;
+    if (amount <= 0) {
       Swal.fire({
         title: "Error",
         text: "El monto debe ser mayor a 0",
@@ -77,12 +47,20 @@ export const GastosProvider = ({ children }: Props) => {
     }
     try {
 
-      const res = api.post('/gastos',{
-        category,
-        description,
-        amount: Number(amountGastos),
-        date: new Date().toISOString()
-      });
+      const res = await api.post(
+        "/gastos",
+        {
+          category,
+          description,
+          amount,
+          date: new Date().toISOString(),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       dispatch({
       type: "ADD_EXPENSE",
@@ -90,10 +68,11 @@ export const GastosProvider = ({ children }: Props) => {
         id: crypto.randomUUID(),
         category,
         description,
-        amountGastos: Number(amountGastos),
+        amount,
         date: new Date().toISOString(), // mejor que "hola"
       },
     });
+    console.log(res)
 
     Swal.fire({
       title: "Gasto creado",
@@ -109,9 +88,9 @@ export const GastosProvider = ({ children }: Props) => {
   };
 
   const Add_Income = (data: IngresoForm) => {
-    const { category, description, amountIngresos , title } = data;
+    const { description, amount , title } = data;
 
-    if (amountIngresos <= 0) {
+    if (amount <= 0) {
       Swal.fire({
         title: "Error",
         text: "El monto debe ser mayor a 0",
@@ -123,10 +102,9 @@ export const GastosProvider = ({ children }: Props) => {
     dispatch({type: "ADD_INCOME", 
       payload: {
         id: crypto.randomUUID(), 
-        title, 
-        category, 
+        title,  
         description, 
-        amountIngresos: Number(amountIngresos), 
+        amount, 
         date: new Date().toISOString()}});
     console.log(state)
   };
