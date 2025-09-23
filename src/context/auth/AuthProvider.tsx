@@ -5,6 +5,7 @@ import { AuthContext, initialAuthState } from './AuthContext';
 import type { LoginForm, LoginResponse } from '@/types/auth';
 import { api } from '@/api/api';
 import { useNavigate } from 'react-router';
+import Swal from 'sweetalert2';
 
 interface Props {
   children: React.ReactNode;
@@ -95,6 +96,12 @@ export const AuthProvider = ({ children }: Props) => {
       navigate('/dashboard');
     } catch (error) {
       console.log('Error al iniciar sesión', error);
+      Swal.fire({
+        title: "Error de validación",
+        text: "El email o contraseña son incorrectos",
+        icon: "error",
+        confirmButtonText: "Aceptar",
+      });
     }
   };
 
