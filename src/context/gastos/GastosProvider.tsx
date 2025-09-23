@@ -5,6 +5,7 @@ import type { GastosForm, IngresoForm} from '@/types/gastos';
 import Swal from 'sweetalert2';
 import { api } from '@/api/api';
 import { AuthContext } from '../auth/AuthContext';
+import { failureCreate, successCreate } from '@/helpers/alertHelper';
 
 
 interface Props {
@@ -52,14 +53,10 @@ export const GastosProvider = ({ children }: Props) => {
         {
           category,
           description,
-          amount,
+          amount:Number(amount),
           date: new Date().toISOString(),
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        
       );
 
       dispatch({
@@ -74,20 +71,17 @@ export const GastosProvider = ({ children }: Props) => {
     });
     console.log(res)
 
-    Swal.fire({
-      title: "Gasto creado",
-      text: "El gasto ha sido creado exitosamente",
-      icon: "success",
-      confirmButtonText: "Aceptar",
-    });
+    successCreate('Gasto')
       
     } catch (error) {
       console.log(error)
+      failureCreate('Gasto')
     }
     
   };
 
-  const Add_Income = (data: IngresoForm) => {
+  
+  const Add_Income = async(data: IngresoForm) => {
     const { description, amount , title } = data;
 
     if (amount <= 0) {
@@ -99,14 +93,30 @@ export const GastosProvider = ({ children }: Props) => {
       });
       return;
     }
-    dispatch({type: "ADD_INCOME", 
-      payload: {
-        id: crypto.randomUUID(), 
-        title,  
-        description, 
-        amount, 
-        date: new Date().toISOString()}});
-    console.log(state)
+
+    try {
+      
+      const res = await api.post('/ingresos',{
+        id: crypto.randomUUID(),
+        description,
+        amount:Number(amount),
+        title,
+        date: new Date().toISOString(),
+      })
+      successCreate('Ingreso')
+      
+      dispatch({type: "ADD_INCOME", 
+        payload: {
+          id: crypto.randomUUID(), 
+          title,  
+          description, 
+          amount, 
+          date: new Date().toISOString()}});
+      
+    } catch (error) {
+      failureCreate('Ingreso')
+      throw new Error('Error loco ' + error)
+    }
   };
 
 
