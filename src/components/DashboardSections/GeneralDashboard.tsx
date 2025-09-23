@@ -1,7 +1,13 @@
 import { Calendar, CreditCard, DollarSign, PieChart, TrendingDown, TrendingUp } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
+import { GastosContext } from "@/context/gastos/GastosContext"
+import { useContext } from "react"
 
 export const GeneralDashboard = () => {
+
+  const {state} = useContext(GastosContext)
+  const ingresosReduce = state.ingresos.reduce((acc,num) => acc + num.amount , 0)
+  const gastosReduce = state.gastos.reduce((acc,num) => acc + num.amount , 0)
 
   return (
       <div className="p-8">
@@ -18,7 +24,7 @@ export const GeneralDashboard = () => {
               <TrendingDown className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-primary">$2,450.00</div>
+              <div className="text-2xl font-bold text-primary">${gastosReduce}</div>
               <p className="text-xs text-muted-foreground">+12% desde el mes pasado</p>
             </CardContent>
           </Card>
@@ -29,7 +35,7 @@ export const GeneralDashboard = () => {
               <TrendingUp className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-chart-2">$5,200.00</div>
+              <div className="text-2xl font-bold text-chart-2">${ingresosReduce}</div>
               <p className="text-xs text-muted-foreground">+8% desde el mes pasado</p>
             </CardContent>
           </Card>
@@ -40,7 +46,7 @@ export const GeneralDashboard = () => {
               <DollarSign className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-chart-1">$2,750.00</div>
+              <div className="text-2xl font-bold text-chart-1">${state.balance}</div>
               <p className="text-xs text-muted-foreground">Disponible</p>
             </CardContent>
           </Card>
@@ -51,7 +57,7 @@ export const GeneralDashboard = () => {
               <CreditCard className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">47</div>
+              <div className="text-2xl font-bold">{state.gastos.length}</div>
               <p className="text-xs text-muted-foreground">Este mes</p>
             </CardContent>
           </Card>
@@ -69,22 +75,16 @@ export const GeneralDashboard = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {[
-                  { desc: "Supermercado Central", amount: "-$85.50", category: "Alimentación", date: "Hoy" },
-                  { desc: "Gasolina Shell", amount: "-$45.00", category: "Transporte", date: "Ayer" },
-                  { desc: "Netflix Suscripción", amount: "-$12.99", category: "Entretenimiento", date: "2 días" },
-                  { desc: "Salario Empresa", amount: "+$2,600.00", category: "Ingreso", date: "3 días" },
-                  { desc: "Farmacia San Pablo", amount: "-$28.75", category: "Salud", date: "4 días" },
-                ].map((transaction, index) => (
+                {state.gastos.map((item, index) => (
                   <div key={index} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
                     <div>
-                      <p className="font-medium text-foreground">{transaction.desc}</p>
+                      <p className="font-medium text-foreground">{item.description}</p>
                       <p className="text-sm text-muted-foreground">
-                        {transaction.category} • {transaction.date}
+                        {item.category} • {item.date}
                       </p>
                     </div>
-                    <div className={`font-bold ${transaction.amount.startsWith("+") ? "text-chart-2" : "text-primary"}`}>
-                      {transaction.amount}
+                    <div className={`font-bold text-green-800`}>
+                      ${item.amount}
                     </div>
                   </div>
                 ))}
