@@ -43,7 +43,9 @@ export const AddIncome = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">Fecha</label>
+                  <label 
+                  {...register("date")}
+                  className="block text-sm font-medium text-foreground mb-2">Fecha</label>
                   <input 
                   type="date" className="w-full p-3 border border-border rounded-lg bg-input text-foreground" />
                 </div>

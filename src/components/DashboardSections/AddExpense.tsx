@@ -62,7 +62,10 @@ export const AddExpense = () => {
 
               <div>
                 <label className="block text-sm font-medium text-foreground mb-2">Fecha</label>
-                <input type="date" className="w-full p-3 border border-border rounded-lg bg-input text-foreground" />
+                <input 
+                {...register("date")}
+                type="date" 
+                className="w-full p-3 border border-border rounded-lg bg-input text-foreground" />
               </div>
 
               <Button className="w-full mt-6 cursor-pointer" type="submit">Guardar Gasto</Button>

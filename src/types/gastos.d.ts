@@ -1,7 +1,8 @@
 export type GastosForm = {
     category: string
     description: string
-    amount: number
+    amount: number,
+    date:string
    
 }
 
@@ -9,7 +10,8 @@ export type IngresoForm = {
     title:string
     category: string
     description: string
-    amount: number
+    amount: number,
+    date:string
 }    
 
 export type UserSession = {

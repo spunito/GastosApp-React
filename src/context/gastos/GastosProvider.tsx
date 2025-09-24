@@ -36,7 +36,7 @@ export const GastosProvider = ({ children }: Props) => {
 
   const Add_Expense = async(data: GastosForm) => {
 
-    const { category, description, amount } = data;
+    const { category, description, amount , date} = data;
     if (amount <= 0) {
       Swal.fire({
         title: "Error",
@@ -54,7 +54,7 @@ export const GastosProvider = ({ children }: Props) => {
           category,
           description,
           amount:Number(amount),
-          date: new Date().toISOString(),
+          date: date,
         },
         
       );
@@ -66,7 +66,7 @@ export const GastosProvider = ({ children }: Props) => {
         category,
         description,
         amount,
-        date: new Date().toISOString(), // mejor que "hola"
+        date: date, // mejor que "hola"
       },
     });
     console.log(res)
@@ -82,7 +82,7 @@ export const GastosProvider = ({ children }: Props) => {
 
   
   const Add_Income = async(data: IngresoForm) => {
-    const { description, amount , title } = data;
+    const { description, amount , title , date } = data;
 
     if (amount <= 0) {
       Swal.fire({
@@ -101,7 +101,7 @@ export const GastosProvider = ({ children }: Props) => {
         description,
         amount:Number(amount),
         title,
-        date: new Date().toISOString(),
+        date: date ,
       })
       successCreate('Ingreso')
       
@@ -111,7 +111,7 @@ export const GastosProvider = ({ children }: Props) => {
           title,  
           description, 
           amount, 
-          date: new Date().toISOString()}});
+          date: date}});
       
     } catch (error) {
       failureCreate('Ingreso')
