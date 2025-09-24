@@ -2,6 +2,7 @@ import { Calendar, CreditCard, DollarSign, PieChart, TrendingDown, TrendingUp } 
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
 import { GastosContext } from "@/context/gastos/GastosContext"
 import { useContext } from "react"
+import { formatCLP } from "@/helpers/amountConverter"
 
 export const GeneralDashboard = () => {
 
@@ -24,7 +25,7 @@ export const GeneralDashboard = () => {
               <TrendingDown className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-primary">${gastosReduce}</div>
+              <div className="text-2xl font-bold text-primary">{formatCLP(gastosReduce)}</div>
               <p className="text-xs text-muted-foreground">+12% desde el mes pasado</p>
             </CardContent>
           </Card>
@@ -35,7 +36,7 @@ export const GeneralDashboard = () => {
               <TrendingUp className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-chart-2">${ingresosReduce}</div>
+              <div className="text-2xl font-bold text-chart-2">{formatCLP(ingresosReduce)}</div>
               <p className="text-xs text-muted-foreground">+8% desde el mes pasado</p>
             </CardContent>
           </Card>
@@ -46,7 +47,7 @@ export const GeneralDashboard = () => {
               <DollarSign className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-chart-1">${state.balance}</div>
+              <div className="text-2xl font-bold text-chart-1">{ formatCLP(state.balance)}</div>
               <p className="text-xs text-muted-foreground">Disponible</p>
             </CardContent>
           </Card>
@@ -84,7 +85,7 @@ export const GeneralDashboard = () => {
                       </p>
                     </div>
                     <div className={`font-bold text-green-800`}>
-                      ${item.amount}
+                      {formatCLP(item.amount)}
                     </div>
                   </div>
                 ))}
@@ -105,7 +106,7 @@ export const GeneralDashboard = () => {
                 {[
                   { category: "Alimentación", amount: "$890.00", percentage: 36, color: "bg-chart-1" },
                   { category: "Transporte", amount: "$650.00", percentage: 27, color: "bg-chart-2" },
-                  { category: "Entretenimiento", amount: "$420.00", percentage: 17, color: "bg-chart-3" },
+                  { category: "Entretenimiento", amount: "$420.00", percentage: 107, color: "bg-chart-3" },
                   { category: "Salud", amount: "$290.00", percentage: 12, color: "bg-chart-4" },
                   { category: "Otros", amount: "$200.00", percentage: 8, color: "bg-chart-5" },
                 ].map((item, index) => (
