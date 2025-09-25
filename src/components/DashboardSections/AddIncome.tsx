@@ -44,10 +44,12 @@ export const AddIncome = () => {
                 </div>
                 <div>
                   <label 
-                  {...register("date")}
+                  
                   className="block text-sm font-medium text-foreground mb-2">Fecha</label>
                   <input 
-                  type="date" className="w-full p-3 border border-border rounded-lg bg-input text-foreground" />
+                  {...register("date")}
+                  type="date" 
+                  className="w-full p-3 border border-border rounded-lg bg-input text-foreground" />
                 </div>
               </div>
 
