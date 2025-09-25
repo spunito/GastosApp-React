@@ -19,3 +19,13 @@ export const failureCreate = (message:string) => {
       confirmButtonText: "Aceptar",
     });
 }
+
+export const invalidAmount = () => {
+  Swal.fire({
+        title: "Error",
+        text: "El monto debe ser mayor a 0",
+        icon: "error",
+        confirmButtonText: "Aceptar",
+      });
+}
+
