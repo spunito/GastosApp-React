@@ -1,5 +1,6 @@
 import type React from "react"
 import { AddExpense, AddIncome, ExpenseHistory, GeneralDashboard } from "./DashboardSections"
+import { IncomeHistory } from "./DashboardSections/ExpenseIncome"
 
 
 interface DashboardContentProps {
@@ -15,6 +16,12 @@ export const DashboardContent: React.FC<DashboardContentProps> = ({ activeSectio
     )
   }
 
+  if(activeSection === "income-history"){
+    return(
+      <IncomeHistory/>
+    )
+  }
+
   // New section for expense history with edit/delete functionality
   if (activeSection === "expense-history") {
     return (
@@ -27,6 +34,7 @@ export const DashboardContent: React.FC<DashboardContentProps> = ({ activeSectio
       <AddExpense />
     )
   }
+  
 
   // General Dashboard
   return(
