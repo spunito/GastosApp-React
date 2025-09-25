@@ -22,6 +22,7 @@ export type GastosContextProps = {
   dispatch: React.Dispatch<any>;
   Add_Expense:(data:GastosForm) => void;
   Add_Income:(data:IngresoForm) => void;
+  refreshData:() => void;
 }
 
 export const GastosContext = createContext<GastosContextProps>({} as GastosContextProps);

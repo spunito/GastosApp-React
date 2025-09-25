@@ -2,10 +2,9 @@ import { useContext, useEffect, useReducer } from 'react';
 import { initialGastosState, GastosContext } from './GastosContext';
 import { GastosReducer } from './GastosReducer';
 import type { GastosForm, IngresoForm} from '@/types/gastos';
-import Swal from 'sweetalert2';
 import { api } from '@/api/api';
 import { AuthContext } from '../auth/AuthContext';
-import { failureCreate, successCreate } from '@/helpers/alertHelper';
+import { failureCreate, invalidAmount, successCreate } from '@/helpers/alertHelper';
 
 
 interface Props {
@@ -15,8 +14,6 @@ interface Props {
 export const GastosProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(GastosReducer, initialGastosState);
   const {state : authState ,loadUserData} =useContext(AuthContext);
-  const token = authState.user?.token
- 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,17 +35,12 @@ export const GastosProvider = ({ children }: Props) => {
 
     const { category, description, amount , date} = data;
     if (amount <= 0) {
-      Swal.fire({
-        title: "Error",
-        text: "El monto debe ser mayor a 0",
-        icon: "error",
-        confirmButtonText: "Aceptar",
-      });
+      invalidAmount()
       return;
     }
     try {
 
-      const res = await api.post(
+      await api.post(
         "/gastos",
         {
           category,
@@ -66,12 +58,11 @@ export const GastosProvider = ({ children }: Props) => {
         category,
         description,
         amount,
-        date: date, // mejor que "hola"
+        date: date, 
       },
     });
-    console.log(res)
-
     successCreate('Gasto')
+    refreshData()
       
     } catch (error) {
       console.log(error)
@@ -85,18 +76,13 @@ export const GastosProvider = ({ children }: Props) => {
     const { description, amount , title , date } = data;
 
     if (amount <= 0) {
-      Swal.fire({
-        title: "Error",
-        text: "El monto debe ser mayor a 0",
-        icon: "error",
-        confirmButtonText: "Aceptar",
-      });
+      invalidAmount()
       return;
     }
 
     try {
       
-      const res = await api.post('/ingresos',{
+      await api.post('/ingresos',{
         id: crypto.randomUUID(),
         description,
         amount:Number(amount),
@@ -112,11 +98,22 @@ export const GastosProvider = ({ children }: Props) => {
           description, 
           amount, 
           date: date}});
+        refreshData()
       
     } catch (error) {
       failureCreate('Ingreso')
       throw new Error('Error loco ' + error)
     }
+  };
+
+  const refreshData = async () => {
+    if (!authState.user?.token) return;
+    
+    const data = await loadUserData();
+    dispatch({
+      type: 'LOAD_DATA',
+      payload: data,
+    });
   };
 
 
@@ -126,7 +123,8 @@ export const GastosProvider = ({ children }: Props) => {
       state,
       dispatch,
       Add_Expense,
-      Add_Income
+      Add_Income,
+      refreshData
     }}>
       {children}
     </GastosContext.Provider>

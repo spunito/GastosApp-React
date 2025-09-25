@@ -12,20 +12,23 @@ export const GastosReducer = (state: IncomeState, action: AuthAction): IncomeSta
   switch (action.type) {
     case 'ADD_EXPENSE':
       const newGastos = [...state.gastos, action.payload];
+      const totalGastosAfterAdd = newGastos.reduce((acc, gasto) => acc + gasto.amount, 0);
+      const totalIngresosAfterAdd = state.ingresos.reduce((acc, ingreso) => acc + ingreso.amount, 0);
       
       return {
         ...state,
-        gastos: newGastos
+        gastos: newGastos,
+        balance: totalIngresosAfterAdd - totalGastosAfterAdd
       };
 
     case 'ADD_INCOME':
         const newIngresos = [...state.ingresos, action.payload];
-        const totalIngresosAfterAdd = newIngresos.reduce((acc, ingreso) => acc + ingreso.amount, 0);
+        const totalIngresosAfterIncomeAdd = newIngresos.reduce((acc, ingreso) => acc + ingreso.amount, 0);
         const totalGastosCurrent = state.gastos.reduce((acc, gasto) => acc + gasto.amount, 0);
         return {
           ...state,
           ingresos: newIngresos,
-          balance: totalIngresosAfterAdd - totalGastosCurrent  // Actualizar el balance  
+          balance: totalIngresosAfterIncomeAdd - totalGastosCurrent  // Actualizar el balance  
         }
     case 'REMOVE_EXPENSE':
           const updatedGastos = state.gastos.filter(gasto => gasto.id !== action.payload.id);
