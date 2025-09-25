@@ -3,12 +3,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
 import { GastosContext } from "@/context/gastos/GastosContext"
 import { useContext } from "react"
 import { formatCLP } from "@/helpers/amountConverter"
+import { formatDDMMYYYY } from "@/helpers/date"
 
 export const GeneralDashboard = () => {
 
   const {state} = useContext(GastosContext)
   const ingresosReduce = state.ingresos.reduce((acc,num) => acc + num.amount , 0)
   const gastosReduce = state.gastos.reduce((acc,num) => acc + num.amount , 0)
+  const AllMovements = [...state.gastos , ...state.ingresos]
+
+
 
   return (
       <div className="p-8">
@@ -76,16 +80,16 @@ export const GeneralDashboard = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {state.gastos.map((item, index) => (
+                {AllMovements.slice(0,5).map((gasto, index) => (
                   <div key={index} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
                     <div>
-                      <p className="font-medium text-foreground">{item.description}</p>
+                      <p className="font-medium text-foreground">{gasto.description}</p>
                       <p className="text-sm text-muted-foreground">
-                        {item.category} • {item.date}
+                        {gasto.category} • {formatDDMMYYYY(gasto.date)}
                       </p>
                     </div>
                     <div className={`font-bold text-green-800`}>
-                      {formatCLP(item.amount)}
+                      {formatCLP(gasto.amount)}
                     </div>
                   </div>
                 ))}
@@ -106,7 +110,7 @@ export const GeneralDashboard = () => {
                 {[
                   { category: "Alimentación", amount: "$890.00", percentage: 36, color: "bg-chart-1" },
                   { category: "Transporte", amount: "$650.00", percentage: 27, color: "bg-chart-2" },
-                  { category: "Entretenimiento", amount: "$420.00", percentage: 107, color: "bg-chart-3" },
+                  { category: "Entretenimiento", amount: "$420.00", percentage: 17, color: "bg-chart-3" },
                   { category: "Salud", amount: "$290.00", percentage: 12, color: "bg-chart-4" },
                   { category: "Otros", amount: "$200.00", percentage: 8, color: "bg-chart-5" },
                 ].map((item, index) => (
