@@ -1,6 +1,6 @@
 import type React from "react"
 import { AddExpense, AddIncome, ExpenseHistory, GeneralDashboard } from "./DashboardSections"
-import { IncomeHistory } from "./DashboardSections/ExpenseIncome"
+import { IncomeHistory } from "./DashboardSections/IncomeHistory"
 
 
 interface DashboardContentProps {
