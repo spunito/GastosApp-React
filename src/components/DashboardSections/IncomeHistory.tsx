@@ -1,14 +1,36 @@
 import { Trash2, Edit } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CardContent, Card, CardHeader, CardDescription, CardTitle } from '@/components/ui/card';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { GastosContext } from '@/context/gastos/GastosContext';
 import { formatDDMMYYYY } from '../../helpers/date';
 import { formatCLP } from '../../helpers/amountConverter';
+import { EditIncomeModal } from '../EditModal/EditIncomeModal';
+
+interface Income {
+  id: string;
+  title: string;
+  description: string;
+  amount: number;
+  date: string;
+}
 
 export const IncomeHistory = () => {
 
-    const {state} = useContext(GastosContext);
+    const {state , Remove_Income} = useContext(GastosContext);
+  
+    const [editingIncome, setEditingIncome] = useState<Income | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+  
+    const handleEdit = (income: Income) => { // Tipar mejor
+      setEditingIncome(income);
+      setIsModalOpen(true);
+    };
+  
+    const closeModal = () => {
+      setIsModalOpen(false);
+      setEditingIncome(null);
+    };
 
     return (
       <div className="p-8">
@@ -49,14 +71,17 @@ export const IncomeHistory = () => {
                     </div>
                   </div>
                   <div className="flex items-center gap-2 ml-4">
-                    <Button variant="outline" size="sm" className="h-9 w-9 p-0 bg-transparent">
+                    <Button 
+                    onClick={() => handleEdit(income)}
+                    variant="outline" size="sm" className="h-9 w-9 p-0 bg-transparent hover:text-blue-600 cursor-pointer">
                       <Edit className="h-4 w-4" />
                     </Button>
                     <p></p>
                     <Button
+                      onClick={() => Remove_Income(income.id)}
                       variant="outline"
                       size="sm"
-                      className="h-9 w-9 p-0 hover:bg-red-50 hover:text-red-600 hover:border-red-200 bg-transparent"
+                      className="h-9 w-9 p-0 hover:bg-red-50 hover:text-red-600 hover:border-red-200 bg-transparent cursor-pointer"
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
@@ -66,6 +91,15 @@ export const IncomeHistory = () => {
             </div>
           </CardContent>
         </Card>
+
+
+        {editingIncome && (
+                <EditIncomeModal
+                  income={editingIncome}
+                  isOpen={isModalOpen}
+                  onClose={closeModal}
+                />
+              )}
       </div>
     )
   }
