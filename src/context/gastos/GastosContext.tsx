@@ -22,6 +22,11 @@ export type GastosContextProps = {
   dispatch: React.Dispatch<any>;
   Add_Expense:(data:GastosForm) => void;
   Add_Income:(data:IngresoForm) => void;
+  Remove_Expense:(id:string) => void;
+  Remove_Income:(id:string) => void;
+  Update_Expense:(id:string,data:GastosForm ) => void;  
+  Update_Income:(id:string,data:IngresoForm ) => void;
+  resetGastos:() => void;
   refreshData:() => void;
 }
 

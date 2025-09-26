@@ -4,7 +4,7 @@ import { GastosReducer } from './GastosReducer';
 import type { GastosForm, IngresoForm} from '@/types/gastos';
 import { api } from '@/api/api';
 import { AuthContext } from '../auth/AuthContext';
-import { failureCreate, invalidAmount, successCreate } from '@/helpers/alertHelper';
+import { confirmDelete, failureCreate, failureDelete, failureUpdate, invalidAmount, successCreate, successDelete, successUpdate } from '@/helpers/alertHelper';
 
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
 
 export const GastosProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(GastosReducer, initialGastosState);
-  const {state : authState ,loadUserData} =useContext(AuthContext);
+  const {state : authState ,loadUserData ,onLogout} =useContext(AuthContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -81,7 +81,6 @@ export const GastosProvider = ({ children }: Props) => {
     }
 
     try {
-      
       await api.post('/ingresos',{
         id: crypto.randomUUID(),
         description,
@@ -106,6 +105,124 @@ export const GastosProvider = ({ children }: Props) => {
     }
   };
 
+  const Remove_Expense = async (id: string) => {
+    try {
+      const result = await confirmDelete('Gasto');
+
+      if (result.isConfirmed) {
+        await api.delete(`/gastos/${id}`);
+        
+        dispatch({
+          type: 'REMOVE_EXPENSE',
+          payload: { id }
+        });
+
+        successDelete('Gasto');
+      }
+
+      refreshData()
+    } catch (error) {
+      console.error('Error al eliminar gasto:', error);
+      failureDelete('Gasto');
+    }
+  };
+
+  const Remove_Income = async (id: string) => {
+    try {
+      const result = await confirmDelete('Ingreso');
+
+      if (result.isConfirmed) {
+        await api.delete(`/ingresos/${id}`);
+        
+        dispatch({
+          type: 'REMOVE_INCOME',
+          payload: { id }
+        });
+
+        successDelete('Ingreso');
+      }
+      refreshData()
+      
+    } catch (error) {
+      console.error('Error al eliminar ingreso:', error);
+      failureDelete('Ingreso');
+    }
+  };
+
+  const Update_Income = async(id:string , data:IngresoForm) => {
+    const {title , amount , description, date} = data
+
+    if(amount <= 0){
+      invalidAmount()
+      return;
+    }
+
+    try {
+      await api.put(`/ingresos/${id}`,{
+        title,
+        description,
+        amount:Number(amount),
+        date:date,
+      });
+      dispatch({
+        type:"UPDATE_INCOME",
+        payload:{
+          id,
+          title,
+          description,
+          amount:Number(amount),
+          date:date,
+          
+        }
+      })
+      successUpdate('Ingreso')
+      refreshData()
+      
+    } catch (error) {
+      console.error('Error al actualizar el ingreso',error)
+      failureUpdate('Ingreso')
+      
+    }
+
+  }
+
+ const Update_Expense = async (id: string, data: GastosForm) => {
+  const { category, description, amount, date } = data;
+  
+  if (amount <= 0) {
+    invalidAmount();
+    return;
+  }
+
+  try {
+    await api.put(`/gastos/${id}`, {
+      category,
+      description,
+      amount: Number(amount),
+      date: date,
+    });
+
+    dispatch({
+      type: "UPDATE_EXPENSE",
+      payload: {
+        id,
+        category,
+        description,
+        amount: Number(amount),
+        date: date,
+        
+      }
+    });
+
+    successUpdate('Gasto');
+    
+    } catch (error) {
+      console.error('Error al actualizar gasto:', error);
+      failureUpdate('Gasto');
+    }
+  };
+   
+
   const refreshData = async () => {
     if (!authState.user?.token) return;
     
@@ -116,14 +233,24 @@ export const GastosProvider = ({ children }: Props) => {
     });
   };
 
-
+  const resetGastos = async () => {
+    await onLogout();
+    dispatch({ type: 'NULL_DATA' });
+  };
 
   return (
     <GastosContext.Provider value={{
       state,
       dispatch,
+      
+      
       Add_Expense,
       Add_Income,
+      Remove_Expense,
+      Remove_Income, 
+      Update_Income,
+      Update_Expense,
+      resetGastos,
       refreshData
     }}>
       {children}
