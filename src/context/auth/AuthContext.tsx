@@ -4,11 +4,13 @@ import { createContext } from 'react';
 // Definición de tipos para el contexto de autenticación
 export type AuthState = {
     isAuthenticated: boolean;
+    isLoading : boolean
     user: { id: string; email: string; name: string; token: string } | null;
 }
 
 export const initialAuthState: AuthState = {
     isAuthenticated: false,
+    isLoading: true,
     user:null
 }
 

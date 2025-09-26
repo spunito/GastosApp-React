@@ -4,7 +4,8 @@ import type { AuthState } from "./AuthContext";
 
 type AuthAction =
   | { type: 'LOGIN'; payload: { name: string; token: string , id: string; email: string;} }
-  | { type: 'LOGOUT' };
+  | { type: 'LOGOUT' }
+  | {type: 'SET_LOADING' ; payload : {loading:boolean}};
 
 
 export const AuthReducer = (state: AuthState, action: AuthAction): AuthState => {
@@ -21,6 +22,11 @@ export const AuthReducer = (state: AuthState, action: AuthAction): AuthState => 
         isAuthenticated: false,
         user: null
       };
+    case 'SET_LOADING':
+        return {
+          ...state,
+          isLoading: action.payload.loading, // usar .loading
+        };
     default:
       return state;
   }

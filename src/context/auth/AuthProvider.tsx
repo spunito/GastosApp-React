@@ -1,4 +1,3 @@
-// AuthProvider.tsx - TIPAR EXPLÍCITAMENTE
 import { useEffect, useReducer, useCallback } from 'react';
 import { AuthReducer } from './AuthReducer';
 import { AuthContext, initialAuthState } from './AuthContext';
@@ -7,12 +6,15 @@ import { api } from '@/api/api';
 import { useNavigate } from 'react-router';
 import Swal from 'sweetalert2';
 
+
+
 interface Props {
   children: React.ReactNode;
 }
 
 export const AuthProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(AuthReducer, initialAuthState);
+
   const navigate = useNavigate();
 
   const loadUserData = useCallback(async (): Promise<{ gastos: any[], ingresos: any[] }> => {
@@ -56,7 +58,10 @@ export const AuthProvider = ({ children }: Props) => {
         });
       } catch (err) {
         dispatch({ type: 'LOGOUT' });
-      }
+      }finally {
+      dispatch({ type: "SET_LOADING", payload: {loading : false} });
+    }
+      
     };
 
     fetchSession();

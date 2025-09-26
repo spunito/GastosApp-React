@@ -1,15 +1,18 @@
-import { Navigate, Outlet } from "react-router";
-import { useContext, type JSX } from "react";
+import { useContext } from "react";
+import { Navigate } from "react-router";
 import { AuthContext } from "@/context/auth/AuthContext";
 
-interface PrivateRouteProps {
-  children: JSX.Element;
-}
 
-export const PrivateRoute = ({ children }: PrivateRouteProps) => {
+
+export const PrivateRoute = ({ children }:any) => {
   const { state } = useContext(AuthContext);
 
-  if (!state.user?.token) {
+  if (state.isLoading) {
+  return <div>Cargando...</div>; // o un spinner
+}
+
+  // Si no hay usuario -> redirige al login
+  if (!state.isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 
