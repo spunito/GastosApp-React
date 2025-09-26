@@ -3,6 +3,7 @@ import { Button } from "./ui/button"
 import { cn } from "../lib/utils"
 import { useContext, useState } from "react"
 import { AuthContext } from "@/context/auth/AuthContext"
+import { GastosContext } from "@/context/gastos/GastosContext"
 
 interface SidebarProps {
   activeSection: string
@@ -26,7 +27,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
 
   const [openExpense, setOpenExpense] = useState(false)
   const [openIncome, setOpenIncome] = useState(false)
-
+  const { resetGastos } = useContext(GastosContext);
   const { onLogout, state } = useContext(AuthContext)
 
   return (
@@ -149,7 +150,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
         <Button
           variant="ghost"
           className="w-full justify-start gap-4 h-14 text-white hover:bg-red-600 transition-all duration-200 rounded-lg font-medium text-base"
-          onClick={onLogout}
+          onClick={resetGastos}
         >
           <div className="w-10 h-10 rounded-lg bg-red-500 flex items-center justify-center">
             <LogOut className="w-5 h-5 text-white" />
