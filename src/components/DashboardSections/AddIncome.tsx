@@ -9,7 +9,14 @@ import type { IngresoForm } from "@/types/gastos";
 export const AddIncome = () => {
 
   const {Add_Income} = useContext(GastosContext);
-  const {handleSubmit , register} =  useForm<IngresoForm>();
+  const {handleSubmit , register , reset} =  useForm<IngresoForm>();
+
+  const onSubmit = (data:IngresoForm) => {
+    Add_Income(data)
+    reset();
+  }
+
+
   return (
       <div className="p-8">
         <div className="max-w-2xl">
@@ -21,7 +28,7 @@ export const AddIncome = () => {
               <CardDescription>Ingresa los detalles de tu nuevo ingreso</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <form onSubmit={handleSubmit(Add_Income)}>
+              <form onSubmit={handleSubmit(onSubmit)}>
               <div>
                 <label className="block text-sm font-medium text-foreground mb-2">Título del Ingreso</label>
                 <input

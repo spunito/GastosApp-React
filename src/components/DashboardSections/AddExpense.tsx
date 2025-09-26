@@ -8,8 +8,12 @@ import { useForm } from "react-hook-form";
 export const AddExpense = () => {
 
   const { Add_Expense } = useContext(GastosContext);
-  const { handleSubmit, register } =  useForm<GastosForm>()
+  const { handleSubmit, register , reset} =  useForm<GastosForm>()
   
+  const onSubmit = (data: GastosForm) => {
+    Add_Expense(data);
+    reset(); 
+  }
   return (
       <div className="p-8">
         <div className="max-w-2xl">
@@ -22,7 +26,7 @@ export const AddExpense = () => {
             </CardHeader>
             <CardContent className="space-y-4">
 
-              <form onSubmit={handleSubmit(Add_Expense)} className="space-y-4">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-foreground mb-2">Descripción</label>
                 
