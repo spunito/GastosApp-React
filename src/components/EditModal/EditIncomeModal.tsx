@@ -1,5 +1,5 @@
 // components/EditExpenseModal.tsx
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useContext, useEffect } from 'react';
 import { GastosContext } from '@/context/gastos/GastosContext';
 import { Button } from '@/components/ui/button';

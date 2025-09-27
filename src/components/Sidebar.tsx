@@ -28,7 +28,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
   const [openExpense, setOpenExpense] = useState(false)
   const [openIncome, setOpenIncome] = useState(false)
   const { resetGastos } = useContext(GastosContext);
-  const { onLogout, state } = useContext(AuthContext)
+  const { state } = useContext(AuthContext)
 
   return (
     <div className="w-72 h-screen bg-green-800 flex flex-col shadow-xl border-r border-green-700">
