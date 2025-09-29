@@ -8,6 +8,7 @@ import monona from "@/assets/images/monona.jpg";
 import { api } from "@/api/api"
 import type { RegisterForm } from "@/types/auth"
 import { useNavigate } from "react-router"
+import Swal from "sweetalert2"
 
 
 
@@ -39,6 +40,14 @@ export const RegisterPage = () => {
 
     } catch (error) {
       console.log(error)
+      Swal.fire({
+        title:'Error',
+        text:`Fallo al registrar cuenta`,
+        icon:'error',
+        confirmButtonText:'Aceptar'
+
+      }
+      )
     }
   };
 
