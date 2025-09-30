@@ -10,9 +10,6 @@ import type { RegisterForm } from "@/types/auth"
 import { useNavigate } from "react-router"
 import Swal from "sweetalert2"
 
-
-
-
 export const RegisterPage = () => {
   const { register, handleSubmit} = useForm<RegisterForm>()
   const [showPassword, setShowPassword] = useState(false)
@@ -45,15 +42,14 @@ export const RegisterPage = () => {
         text:`Fallo al registrar cuenta`,
         icon:'error',
         confirmButtonText:'Aceptar'
-
-      }
-      )
+      })
     }
   };
 
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-cyan-50 to-blue-50">
-      <div className="w-1/2 relative h-screen overflow-hidden">
+      {/* Imagen lateral - Oculta en móviles y tablets */}
+      <div className="hidden lg:block lg:w-1/2 relative h-screen overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 z-10"></div>
         <img src={monona} alt="Imagen de prueba" className="w-full h-full object-cover" />
         <div className="absolute inset-0 z-20 flex items-center justify-center">
@@ -64,14 +60,21 @@ export const RegisterPage = () => {
         </div>
       </div>
 
-      <div className="w-1/2 flex items-center justify-center p-8">
+      {/* Formulario de registro - Full width en móviles */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-4 sm:p-6 md:p-8">
         <Card className="w-full max-w-md shadow-2xl border-0 bg-card/80 backdrop-blur-sm">
-          <CardHeader className="space-y-2 pb-8">
-            <CardTitle className="text-3xl font-bold text-center text-foreground">Crear Cuenta</CardTitle>
-            <p className="text-muted-foreground text-center text-pretty">Regístrate para comenzar</p>
+          <CardHeader className="space-y-2 pb-6 sm:pb-8 px-4 sm:px-6">
+            <CardTitle className="text-2xl sm:text-3xl font-bold text-center text-foreground">
+              Crear Cuenta
+            </CardTitle>
+            <p className="text-muted-foreground text-center text-pretty text-sm sm:text-base">
+              Regístrate para comenzar
+            </p>
           </CardHeader>
-          <CardContent className="space-y-6">
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+
+          <CardContent className="space-y-4 sm:space-y-6 px-4 sm:px-6">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-5">
+              {/* Campo Username */}
               <div className="space-y-2">
                 <div className="relative">
                   <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
@@ -79,12 +82,13 @@ export const RegisterPage = () => {
                     {...register("username")}
                     type="text"
                     placeholder="Tu nombre de usuario"
-                    className="pl-10 h-12 bg-input border-border focus:border-primary transition-colors"
+                    className="pl-10 h-11 sm:h-12 bg-input border-border focus:border-primary transition-colors text-sm sm:text-base"
                     required
                   />
                 </div>
               </div>
 
+              {/* Campo Email */}
               <div className="space-y-2">
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
@@ -92,12 +96,13 @@ export const RegisterPage = () => {
                     {...register("email")}
                     type="email"
                     placeholder="tu@email.com"
-                    className="pl-10 h-12 bg-input border-border focus:border-primary transition-colors"
+                    className="pl-10 h-11 sm:h-12 bg-input border-border focus:border-primary transition-colors text-sm sm:text-base"
                     required
                   />
                 </div>
               </div>
 
+              {/* Campo Contraseña */}
               <div className="space-y-2">
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
@@ -105,22 +110,24 @@ export const RegisterPage = () => {
                     {...register("password")}
                     type={showPassword ? "text" : "password"}
                     placeholder="Tu contraseña"
-                    className="pl-10 pr-10 h-12 bg-input border-border focus:border-primary transition-colors"
+                    className="pl-10 pr-10 h-11 sm:h-12 bg-input border-border focus:border-primary transition-colors text-sm sm:text-base"
                     required
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                    aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                   >
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
-                  {incorrectPassword && (
-                    <p className="text-red-600 text-sm mt-1">Las contraseñas no coinciden</p>
-                  )}
                 </div>
+                {incorrectPassword && (
+                  <p className="text-red-600 text-xs sm:text-sm mt-1">Las contraseñas no coinciden</p>
+                )}
               </div>
 
+              {/* Campo Confirmar Contraseña */}
               <div className="space-y-2">
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
@@ -128,31 +135,34 @@ export const RegisterPage = () => {
                     {...register("confirmPassword")}
                     type={showConfirmPassword ? "text" : "password"}
                     placeholder="Confirma tu contraseña"
-                    className="pl-10 pr-10 h-12 bg-input border-border focus:border-primary transition-colors"
+                    className="pl-10 pr-10 h-11 sm:h-12 bg-input border-border focus:border-primary transition-colors text-sm sm:text-base"
                     required
                   />
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                    aria-label={showConfirmPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                   >
                     {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
-                  {incorrectPassword && (
-                    <p className="text-red-600 text-sm mt-1">Las contraseñas no coinciden</p>
-                  )}
                 </div>
+                {incorrectPassword && (
+                  <p className="text-red-600 text-xs sm:text-sm mt-1">Las contraseñas no coinciden</p>
+                )}
               </div>
 
+              {/* Botón de submit */}
               <Button
                 type="submit"
-                className="w-full h-12 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-lg transition-all duration-200 transform hover:scale-[1.02]"
+                className="w-full h-11 sm:h-12 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-base sm:text-lg transition-all duration-200 transform hover:scale-[1.02]"
               >
                 Crear Cuenta
               </Button>
 
-              <div className="text-center pt-4 border-t border-border">
-                <p className="text-muted-foreground text-sm">
+              {/* Link a login */}
+              <div className="text-center pt-3 sm:pt-4 border-t border-border">
+                <p className="text-muted-foreground text-xs sm:text-sm">
                   ¿Ya tienes cuenta?{" "}
                   <a href="/login" className="text-secondary hover:text-secondary/80 font-semibold transition-colors">
                     Iniciar sesión
@@ -165,5 +175,4 @@ export const RegisterPage = () => {
       </div>
     </div>
   )
-
 }
