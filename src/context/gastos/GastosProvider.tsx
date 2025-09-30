@@ -18,10 +18,7 @@ export const GastosProvider = ({ children }: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       if (!authState.user?.token) return;
-
       const data = await loadUserData(); // ← LLAMAR DIRECTAMENTE AL CALLBACK
-      console.log(data.gastos , data.ingresos)
-      
       dispatch({
         type: 'LOAD_DATA',
         payload: data,
