@@ -2,8 +2,9 @@ import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Eye, EyeOff, Mail, Lock } from "lucide-react"
+import { Eye, EyeOff, Mail, Lock, ArrowLeft } from "lucide-react"
 import { useContext, useState } from "react"
+import { useNavigate } from "react-router"
 import monona from "@/assets/images/monona.jpg";
 import { AuthContext } from "@/context/auth/AuthContext"
 import type { LoginForm } from "@/types/auth"
@@ -12,9 +13,21 @@ export const LoginPage = () => {
   const { register, handleSubmit } = useForm<LoginForm>()
   const [showPassword, setShowPassword] = useState(false)
   const { onLogin } = useContext(AuthContext);
+  const navigate = useNavigate();
   
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-cyan-50 to-blue-50">
+      {/* Botón de retroceso - Fijo en la esquina */}
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={() => navigate("/")}
+        className="fixed top-4 left-4 z-50 flex items-center gap-2 hover:bg-white/50 transition-colors"
+      >
+        <ArrowLeft className="h-4 w-4" />
+        <span className="hidden sm:inline">Volver al inicio</span>
+      </Button>
+
       {/* Imagen lateral - Oculta en móviles y tablets */}
       <div className="hidden lg:block lg:w-1/2 relative h-screen overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 z-10"></div>
