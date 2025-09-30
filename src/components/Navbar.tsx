@@ -8,27 +8,10 @@ export const  Navbar = () =>  {
         <div className="flex items-center justify-between">
 
           {/* Logo */}
-          <a href="/login" className="text-xl font-bold text-primary">
+          <a href="/login" className="text-xl font-bold text-gray-900">
             GastosApp
           </a>
 
-          <ul className="hidden md:flex items-center space-x-6 font-medium text-foreground">
-            <li>
-              <a href="" className="hover:text-primary transition-colors">
-                Características
-              </a>
-            </li>
-            <li>
-              <a href="#precios" className="hover:text-primary transition-colors">
-                Precios
-              </a>
-            </li>
-            <li>
-              <a href="#ayuda" className="hover:text-primary transition-colors">
-                Ayuda
-              </a>
-            </li>
-          </ul>
           <a href="/login">
             <Button className="cursor-pointer">
               Iniciar sesión
