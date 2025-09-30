@@ -1,8 +1,7 @@
 import axios from 'axios';
 
 export const api = axios.create({
-    baseURL: 'https://gastosapp-nestjs.onrender.com', // http://localhost:3000
-    withCredentials: true,
+    baseURL: 'https://gastosapp-nestjs.onrender.com', // http://localhost:10000
     headers: {
         'Content-Type': 'application/json',
         
