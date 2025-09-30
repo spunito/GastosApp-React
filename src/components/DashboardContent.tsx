@@ -9,7 +9,7 @@ interface DashboardContentProps {
 
 export const DashboardContent: React.FC<DashboardContentProps> = ({ 
   activeSection,
-  onSectionChange 
+
 }) => {
   
   if (activeSection === "add-income") {
