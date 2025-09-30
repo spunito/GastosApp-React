@@ -7,10 +7,10 @@ import { formatDDMMYYYY } from "@/helpers/date"
 import type { Movements } from "@/types/gastos"
 
 const categories = [
-  { name: "Alimentación", color: "bg-red-500" },
-  { name: "Transporte", color: "bg-blue-500" },
-  { name: "Entretenimiento", color: "bg-yellow-400" },
-  { name: "Salud", color: "bg-green-500" },
+  { name: "Alimentación", color: "bg-yellow-500" },
+  { name: "Transporte", color: "bg-red-500" },
+  { name: "Entretenimiento", color: "bg-green-400" },
+  { name: "Salud", color: "bg-blue-300" },
   { name: "Otros", color: "bg-purple-500" },
 ]
 
@@ -70,26 +70,26 @@ export const GeneralDashboard = () => {
       </div>
 
       {/* Filtro de fechas */}
-      <div className="flex gap-4 mb-8">
-        <div>
-          <label className="block text-sm text-muted-foreground">Desde</label>
-          <input
-            type="date"
-            value={fechaInicio}
-            onChange={(e) => setFechaInicio(e.target.value)}
-            className="border rounded px-2 py-1"
-          />
-        </div>
-        <div>
-          <label className="block text-sm text-muted-foreground">Hasta</label>
-          <input
-            type="date"
-            value={fechaFin}
-            onChange={(e) => setFechaFin(e.target.value)}
-            className="border rounded px-2 py-1"
-          />
-        </div>
+    <div className="flex flex-col md:flex-row gap-4 mb-8">
+      <div className="flex-1">
+        <label className="block text-sm text-muted-foreground mb-1">Desde</label>
+        <input
+          type="date"
+          value={fechaInicio}
+          onChange={(e) => setFechaInicio(e.target.value)}
+          className="w-full border rounded px-3 py-2 text-sm"
+        />
       </div>
+      <div className="flex-1">
+        <label className="block text-sm text-muted-foreground mb-1">Hasta</label>
+        <input
+          type="date"
+          value={fechaFin}
+          onChange={(e) => setFechaFin(e.target.value)}
+          className="w-full border rounded px-3 py-2 text-sm"
+        />
+      </div>
+    </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -132,7 +132,7 @@ export const GeneralDashboard = () => {
             <CreditCard className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{AllMovements.length}</div>
+            <div className="text-2xl font-bold">{state.gastos.length}</div>
             <p className="text-xs text-muted-foreground">En el rango seleccionado</p>
           </CardContent>
         </Card>
@@ -156,7 +156,9 @@ export const GeneralDashboard = () => {
                   className="flex items-center justify-between p-3 bg-muted rounded-lg"
                 >
                   <div>
-                    <p className="font-medium text-foreground">{mov.description}</p>
+                    {mov.type === "ingreso" ? <p className="font-medium text-foreground">{mov.title}</p> : 
+                    <p className="font-medium text-foreground">{mov.description}</p>}
+                    
                     <p className="text-sm text-muted-foreground">
                       {mov.type === "gasto"
                         ? `${mov.category} • ${formatDDMMYYYY(mov.date)}`
