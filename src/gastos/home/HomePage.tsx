@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 // import { TrendingUp, PieChart, BarChart3, Shield, Smartphone, Users } from "lucide-react"
 import monona from "@/assets/images/monona.jpg";
 import { Navbar } from "@/components/Navbar";
+import { Footer } from "./components/Footer";
 
 
 export const HomePage = () => {
@@ -24,12 +25,13 @@ export const HomePage = () => {
                 decisiones financieras informadas con GastosApp.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                <a href="/login" className="cursor-pointer">
                 <Button size="lg" className="text-lg px-8 py-6">
+                  
                   Empieza Ahora
                 </Button>
-                <Button variant="outline" size="lg" className="text-lg px-8 py-6 bg-transparent">
-                  Ver Demo
-                </Button>
+                </a>
+
               </div>
             </div>
 
@@ -151,82 +153,12 @@ export const HomePage = () => {
             Comenzar Gratis
           </Button>
         </div>
-      </section> */}
+      </section> 
 
       {/* Footer */}
-      <footer className="py-12 bg-muted">
-        <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="font-bold text-lg mb-4 text-primary">GastosApp</h3>
-              <p className="text-muted-foreground">La forma más inteligente de gestionar tus finanzas personales.</p>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Producto</h4>
-              <ul className="space-y-2 text-muted-foreground">
-                <li>
-                  <a href="#" className="hover:text-primary transition-colors">
-                    Características
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-primary transition-colors">
-                    Precios
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-primary transition-colors">
-                    Seguridad
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Soporte</h4>
-              <ul className="space-y-2 text-muted-foreground">
-                <li>
-                  <a href="#" className="hover:text-primary transition-colors">
-                    Ayuda
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-primary transition-colors">
-                    Contacto
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-primary transition-colors">
-                    FAQ
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Legal</h4>
-              <ul className="space-y-2 text-muted-foreground">
-                <li>
-                  <a href="#" className="hover:text-primary transition-colors">
-                    Privacidad
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-primary transition-colors">
-                    Términos
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-primary transition-colors">
-                    Cookies
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-border mt-8 pt-8 text-center text-muted-foreground">
-            <p>&copy; 2024 GastosApp. Todos los derechos reservados.</p>
-          </div>
-        </div>
-      </footer>
+
+      <Footer />
+      
     </>
   )
 }

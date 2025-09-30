@@ -45,11 +45,11 @@ export const IncomeHistory = () => {
             <CardDescription>Lista completa de gastos con opciones de edición</CardDescription>
           </CardHeader>
           <CardContent>
-            {state.ingresos.length === 0 && (
-                <h1>Hola</h1>
-            )
-          }
-            <div className="space-y-4">
+            {state.ingresos.length === 0 ? (
+                <p className="text-center text-muted-foreground py-8">
+              No hay Ingresos registrados
+            </p>
+                ) : (<div className="space-y-4">
               {state.ingresos.map((income) => (
                 <div
                   key={income.id}
@@ -89,8 +89,11 @@ export const IncomeHistory = () => {
                 </div>
               ))}
             </div>
+            )}
           </CardContent>
         </Card>
+      
+            
 
 
         {editingIncome && (

@@ -3,7 +3,7 @@ import { RegisterPage } from "@/auth/pages/RegisterPage";
 import { AuthProvider } from "@/context/auth/AuthProvider";
 import { GastosProvider } from "@/context/gastos/GastosProvider";
 import { DashboardPage } from "@/gastos/Dashboard/DashboardPage";
-import { HomePage } from "@/gastos/home/pages/HomePage";
+import { HomePage } from "@/gastos/home/HomePage";
 import { createBrowserRouter } from "react-router";
 import { PrivateRoute } from "./components/PrivateRoute";
 

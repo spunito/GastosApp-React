@@ -31,7 +31,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
   const { state } = useContext(AuthContext)
 
   return (
-    <div className="w-72 h-screen bg-green-800 flex flex-col shadow-xl border-r border-green-700">
+    
+    <div className="hidden md:flex md:flex-col w-72 h-screen bg-green-800 shadow-xl border-r border-green-700">
       {/* Header */}
       <div className="p-8 border-b border-green-700">
         <div className="flex items-center gap-3">
@@ -146,7 +147,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
       </nav>
 
       {/* Footer */}
-      <div className="p-6 border-t border-green-700">
+      <div className="p-6  border-green-700">
         <Button
           variant="ghost"
           className="w-full justify-start gap-4 h-14 text-white hover:bg-red-600 transition-all duration-200 rounded-lg font-medium text-base"
