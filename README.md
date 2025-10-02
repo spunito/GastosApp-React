@@ -1,4 +1,4 @@
-# Gastos App | React + Typescript + NestJS? + Postgree? + Prisma?
+# GastosApp Frontend | React + Typescript
 
 # Descripción
 
@@ -14,7 +14,7 @@ Esta aplicación está diseñada para personas que desean llevar un control clar
 
 **Fácil de usar:** Interfaz intuitiva y amigable, ideal para cualquier usuario.
 
-# Tecnologías Utilizadas Por el momento
 
-Sigo pensando en que stack deberia utilizar realmente xd
+
+
 
