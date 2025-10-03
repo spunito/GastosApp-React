@@ -79,7 +79,7 @@ export const RegisterPage = () => {
                 <div className="relative">
                   <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                   <Input
-                    {...register("username")}
+                    {...register("username",{required:true})}
                     type="text"
                     placeholder="Tu nombre de usuario"
                     className="pl-10 h-11 sm:h-12 bg-input border-border focus:border-primary transition-colors text-sm sm:text-base"
@@ -93,7 +93,7 @@ export const RegisterPage = () => {
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                   <Input
-                    {...register("email")}
+                    {...register("email",{required:true })}
                     type="email"
                     placeholder="tu@email.com"
                     className="pl-10 h-11 sm:h-12 bg-input border-border focus:border-primary transition-colors text-sm sm:text-base"
@@ -107,7 +107,7 @@ export const RegisterPage = () => {
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                   <Input
-                    {...register("password")}
+                    {...register("password",{required:true , minLength:8})}
                     type={showPassword ? "text" : "password"}
                     placeholder="Tu contraseña"
                     className="pl-10 pr-10 h-11 sm:h-12 bg-input border-border focus:border-primary transition-colors text-sm sm:text-base"
@@ -132,7 +132,7 @@ export const RegisterPage = () => {
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                   <Input
-                    {...register("confirmPassword")}
+                    {...register("confirmPassword" ,{required:true , minLength:8})}
                     type={showConfirmPassword ? "text" : "password"}
                     placeholder="Confirma tu contraseña"
                     className="pl-10 pr-10 h-11 sm:h-12 bg-input border-border focus:border-primary transition-colors text-sm sm:text-base"
