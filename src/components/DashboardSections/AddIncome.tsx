@@ -92,7 +92,7 @@ export const AddIncome = () => {
 
               {/* Botón */}
               <Button
-                className="w-full mt-6 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white border-0"
+                className="w-full mt-6 bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white border-0"
                 type="submit"
               >
                 Guardar Ingreso

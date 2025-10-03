@@ -1,84 +1,112 @@
-import { useContext } from "react";
+"use client"
+
+import { useContext } from "react"
 import { Button } from "../ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card"
-import { GastosContext } from "@/context/gastos/GastosContext";
-import type { GastosForm } from "@/types/gastos";
-import { useForm } from "react-hook-form";
+import { GastosContext } from "@/context/gastos/GastosContext"
+import type { GastosForm } from "@/types/gastos"
+import { useForm } from "react-hook-form"
+import { todayDate } from "@/helpers/date"
 
 export const AddExpense = () => {
+  const { Add_Expense } = useContext(GastosContext)
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { errors },
+  } = useForm<GastosForm>()
 
-  const { Add_Expense } = useContext(GastosContext);
-  const { handleSubmit, register , reset} =  useForm<GastosForm>()
-  
   const onSubmit = (data: GastosForm) => {
-    Add_Expense(data);
-    reset(); 
+    Add_Expense(data)
+    reset()
   }
+
   return (
-      <div className="p-8">
-        <div className="max-w-2xl">
-          <h1 className="text-3xl font-bold text-foreground mb-6">Agregar Nuevo Gasto</h1>
+    <div className="p-4 sm:p-6 md:p-8">
+      <div className="max-w-2xl mx-auto">
+        <h1 className="text-3xl font-bold text-foreground mb-6 text-center sm:text-left">Agregar Nuevo Gasto</h1>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Registrar Gasto</CardTitle>
-              <CardDescription>Ingresa los detalles de tu nuevo gasto</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <Card className="bg-slate-800/50 border-slate-700 backdrop-blur-sm">
+          <CardHeader>
+            <CardTitle className="text-white">Registrar Gasto</CardTitle>
+            <CardDescription className="text-slate-400">Ingresa los detalles de tu nuevo gasto</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4 sm:space-y-6">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-5">
+              {/* Título */}
               <div>
-                <label className="block text-sm font-medium text-foreground mb-2">Descripción</label>
-                
+                <label className="block text-sm font-medium text-slate-300 mb-2">Título del Gasto *</label>
                 <input
-                  {...register("description")}
+                  {...register("description", { required: "El título es obligatorio", minLength: 1 })}
                   type="text"
-                  className="w-full p-3 border border-border rounded-lg bg-input text-foreground"
-                  placeholder="Ej: Almuerzo en restaurante"
-                  
+                  className="w-full p-3 border border-slate-700 rounded-lg bg-slate-900 text-white placeholder:text-slate-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                  placeholder="Ej: Almuerzo, Taxi, Netflix"
                 />
+                {errors.description && <p className="text-red-400 text-sm mt-1">{errors.description.message}</p>}
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">Monto</label>
-                  <input
-                    {...register("amount")}
-                    type="number"
-                    className="w-full p-3 border border-border rounded-lg bg-input text-foreground"
-                    placeholder="0.00"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">Categoría</label>
-                  <select 
-                  {...register("category")}
-                  className="w-full p-3 border border-border rounded-lg bg-input text-foreground">
-                    <option value=''>Selecciona una categoría</option>
-                    <option value='Alimentación'>Alimentación</option>
-                    <option value='Transporte'>Transporte</option>
-                    <option value='Entretenimiento'>Entretenimiento</option>
-                    <option value='Salud'>Salud</option>
-                    <option value='Otros'>Otros</option>
-                  </select>
-                </div>
-              </div>
-
+              {/* Fecha */}
               <div>
-                <label className="block text-sm font-medium text-foreground mb-2">Fecha</label>
-                <input 
-                {...register("date")}
-                type="date" 
-                className="w-full p-3 border border-border rounded-lg bg-input text-foreground" />
+                <label className="block text-sm font-medium text-slate-300 mb-2">Fecha *</label>
+                <input
+                  {...register("date", { required: "La fecha es obligatoria" })}
+                  defaultValue={todayDate()}
+                  type="date"
+                  className="w-full p-3 border border-slate-700 rounded-lg bg-slate-900 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                />
+                {errors.date && <p className="text-red-400 text-sm mt-1">{errors.date.message}</p>}
               </div>
 
-              <Button className="w-full mt-6 cursor-pointer" type="submit">Guardar Gasto</Button>
-              </form>
-            </CardContent>
-          </Card>
-          
-        </div>
-      </div>
-    )
-  }
+              {/* Monto y Categoría */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-2">Monto (CLP) *</label>
+                  <input
+                    {...register("amount", {
+                      required: "El monto es obligatorio",
+                      min: { value: 1, message: "El monto debe ser mayor a 0" },
+                    })}
+                    type="number"
+                    step={1}
+                    onKeyDown={(e) => {
+                      if (e.key === "." || e.key === ",") e.preventDefault()
+                    }}
+                    className="w-full p-3 border border-slate-700 rounded-lg bg-slate-900 text-white placeholder:text-slate-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                    placeholder="0"
+                  />
+                  {errors.amount && <p className="text-red-400 text-sm mt-1">{errors.amount.message}</p>}
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-2">Categoría *</label>
+                  <select
+                    {...register("category", { required: "La categoria es requerida" })}
+                    className="w-full p-3 border border-slate-700 rounded-lg bg-slate-900 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                  >
+                    <option value="">Selecciona una categoría</option>
+                    <option value="Alimentación">Alimentación</option>
+                    <option value="Transporte">Transporte</option>
+                    <option value="Vivienda">Vivienda</option>
+                    <option value="Servicios básicos">Servicios básicos</option>
+                    <option value="Entretenimiento">Entretenimiento</option>
+                    <option value="Salud">Salud</option>
+                    <option value="Otros">Otros</option>
+                  </select>
+                  {errors.category && <p className="text-red-400 text-sm mt-1">{errors.category.message}</p>}
+                </div>
+              </div>
 
+              {/* Botón */}
+              <Button
+                className="w-full mt-6 bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white border-0"
+                type="submit"
+              >
+                Guardar Gasto
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  )
+}
