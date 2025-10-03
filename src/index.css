@@ -4,67 +4,38 @@
   --font-sans: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: "Fira Code", "Courier New", monospace;
 
-  /* Color tokens */
-  --color-background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
-  --color-foreground: #4004a0;
-  --color-muted: #f0fdf4;
-  --color-muted-foreground: #475569;
-  --color-border: #86efac;
-  --color-primary: #16a34a;
+  /* Modern dark color scheme with slate/blue accents */
+  --color-background: #0a0e1a;
+  --color-foreground: #e2e8f0;
+  --color-muted: #1e293b;
+  --color-muted-foreground: #94a3b8;
+  --color-border: #334155;
+  --color-primary: #3b82f6;
   --color-primary-foreground: #ffffff;
-  --color-secondary: #22c55e;
+  --color-secondary: #8b5cf6;
   --color-secondary-foreground: #ffffff;
-  --color-accent: #4ade80;
-  --color-accent-foreground: #0f172a;
+  --color-accent: #06b6d4;
+  --color-accent-foreground: #ffffff;
   --color-destructive: #ef4444;
   --color-destructive-foreground: #ffffff;
-  --color-card: rgba(255, 255, 255, 0.9);
-  --color-card-foreground: #0f172a;
-  --color-popover: #ffffff;
-  --color-popover-foreground: #0f172a;
-  --color-input: rgba(240, 253, 244, 0.8);
-  --color-ring: rgba(22, 163, 74, 0.3);
+  --color-card: #1e293b;
+  --color-card-foreground: #e2e8f0;
+  --color-popover: #1e293b;
+  --color-popover-foreground: #e2e8f0;
+  --color-input: #0f172a;
+  --color-ring: rgba(59, 130, 246, 0.5);
 
-  /* Sidebar-specific tokens with green theme */
-  --color-sidebar: #15803d;
-  --color-sidebar-foreground: #ffffff;
-  --color-sidebar-border: #166534;
-  --color-sidebar-accent: #16a34a;
-  --color-sidebar-accent-foreground: #ffffff;
-  --color-sidebar-primary: #22c55e;
+  /* Sidebar-specific tokens with modern dark theme */
+  --color-sidebar: #0f172a;
+  --color-sidebar-foreground: #e2e8f0;
+  --color-sidebar-border: #1e293b;
+  --color-sidebar-accent: #1e293b;
+  --color-sidebar-accent-foreground: #e2e8f0;
+  --color-sidebar-primary: #3b82f6;
   --color-sidebar-primary-foreground: #ffffff;
 
   /* Border radius */
   --radius: 0.75rem;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-    --color-foreground: #f0fdf4;
-    --color-muted: #1e293b;
-    --color-muted-foreground: #94a3b8;
-    --color-border: #334155;
-    --color-primary: #b518d4ff;
-    --color-primary-foreground: #ffffff;
-    --color-secondary: #4004a0;
-    --color-secondary-foreground: #ffffff;
-    --color-accent: #166534;
-    --color-accent-foreground: #f0fdf4;
-    --color-card: rgba(30, 41, 59, 0.9);
-    --color-card-foreground: #f0fdf4;
-    --color-popover: #0f172a;
-    --color-popover-foreground: #f0fdf4;
-    --color-input: rgba(30, 41, 59, 0.8);
-
-    --color-sidebar: #14532d;
-    --color-sidebar-foreground: #f0fdf4;
-    --color-sidebar-border: #166534;
-    --color-sidebar-accent: #16a34a;
-    --color-sidebar-accent-foreground: #f0fdf4;
-    --color-sidebar-primary: #22c55e;
-    --color-sidebar-primary-foreground: #f0fdf4;
-  }
 }
 
 * {
@@ -72,21 +43,22 @@
 }
 
 body {
-  color: rgb(var(--color-foreground));
-  background: rgb(var(--color-background));
+  color: var(--color-foreground);
+  background: var(--color-background);
   font-feature-settings: "rlig" 1, "calt" 1;
 }
 
-/* Modern glass morphism effects */
+/* Enhanced glass morphism for modern dark theme */
 .glass-effect {
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(148, 163, 184, 0.1);
 }
 
-/* Updated gradient text to green theme */
+/* Updated gradient text with blue/purple theme */
 .gradient-text {
-  background: linear-gradient(135deg, #16a34a, #22c55e);
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
