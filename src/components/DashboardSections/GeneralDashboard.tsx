@@ -1,10 +1,9 @@
-"use client"
-
 import { Calendar, CreditCard, DollarSign, PieChart, TrendingDown, TrendingUp } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
 import { formatCLP } from "@/helpers/amountConverter"
 import { formatDDMMYYYY } from "@/helpers/date"
-import { useGeneraldashboard } from "@/hooks/useGeneraldashboard"
+import { useGeneralDashboard} from "@/hooks/useGeneralDashboard"
+
 
 export const GeneralDashboard = () => {
   const {
@@ -17,7 +16,7 @@ export const GeneralDashboard = () => {
     totalGastos,
     totalIngresos,
     state,
-  } = useGeneraldashboard()
+  } = useGeneralDashboard();
 
   return (
     <div className="p-8 bg-slate-950 min-h-screen">

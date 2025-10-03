@@ -13,7 +13,7 @@ const categories = [
   { name: "Otros", color: "bg-indigo-500" },
 ]
 
-export const useGeneraldashboard = () => {
+export const useGeneralDashboard = () => {
   const { state } = useContext(GastosContext)
 
   // Estados para filtro por fecha
