@@ -1,3 +1,7 @@
+"use client"
+
+import type React from "react"
+
 import { useState } from "react"
 import { Home, Plus, LogOut, TrendingUp, DollarSign, History, ChevronDown, ChevronRight, Menu, X } from "lucide-react"
 import { Button } from "./ui/button"
@@ -10,19 +14,12 @@ interface MobileMenuProps {
   onLogout: () => void
 }
 
-export const MobileMenu: React.FC<MobileMenuProps> = ({ 
-  activeSection, 
-  onSectionChange, 
-  userName,
-  onLogout 
-}) => {
+export const MobileMenu: React.FC<MobileMenuProps> = ({ activeSection, onSectionChange, userName, onLogout }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [openExpense, setOpenExpense] = useState(false)
   const [openIncome, setOpenIncome] = useState(false)
 
-  const menuItems = [
-    { id: "general", label: "General", icon: Home },
-  ]
+  const menuItems = [{ id: "general", label: "General", icon: Home }]
 
   const menuExpense = [
     { id: "add-expense", label: "Agregar Gastos", icon: Plus },
@@ -42,24 +39,24 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
   return (
     <>
       {/* Header móvil con hamburguesa */}
-      <div className="md:hidden sticky top-0 z-50 bg-green-800 border-b border-green-700 px-4 py-3">
+      <div className="md:hidden sticky top-0 z-50 bg-slate-900 border-b border-slate-800 px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center">   
-              <button onClick={() =>  window.location.reload()}>  
-              <TrendingUp className="w-5 h-5 text-white" />
+            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center shadow-lg">
+              <button onClick={() => window.location.reload()}>
+                <TrendingUp className="w-5 h-5 text-white" />
               </button>
             </div>
             <div>
               <h2 className="text-lg font-bold text-white">GastosApp</h2>
-              <p className="text-xs text-green-200">{userName}</p>
+              <p className="text-xs text-slate-400">{userName}</p>
             </div>
           </div>
           <Button
             variant="ghost"
             size="icon"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="text-white hover:bg-green-700"
+            className="text-white hover:bg-slate-800"
           >
             {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </Button>
@@ -68,12 +65,9 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
 
       {/* Menú móvil desplegable */}
       {mobileMenuOpen && (
-        <div 
-          className="md:hidden fixed inset-0 z-40 bg-black/50" 
-          onClick={() => setMobileMenuOpen(false)}
-        >
-          <div 
-            className="absolute right-0 top-[57px] w-72 h-[calc(100vh-57px)] bg-green-800 shadow-xl overflow-y-auto"
+        <div className="md:hidden fixed inset-0 z-40 bg-black/50" onClick={() => setMobileMenuOpen(false)}>
+          <div
+            className="absolute right-0 top-[57px] w-72 h-[calc(100vh-57px)] bg-slate-900 shadow-xl overflow-y-auto border-l border-slate-800"
             onClick={(e) => e.stopPropagation()}
           >
             <nav className="p-4">
@@ -86,15 +80,16 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
                       key={item.id}
                       variant="ghost"
                       className={cn(
-                        "w-full justify-start gap-3 h-12 text-white hover:bg-green-700 transition-all duration-200 rounded-lg",
-                        activeSection === item.id && "bg-green-600 text-white shadow-md",
+                        "w-full justify-start gap-3 h-12 text-white hover:bg-slate-800 transition-all duration-200 rounded-lg",
+                        activeSection === item.id &&
+                          "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg",
                       )}
                       onClick={() => handleSectionChange(item.id)}
                     >
                       <div
                         className={cn(
                           "w-8 h-8 rounded-lg flex items-center justify-center",
-                          activeSection === item.id ? "bg-green-500" : "bg-green-700",
+                          activeSection === item.id ? "bg-white/20" : "bg-slate-800",
                         )}
                       >
                         <Icon className="w-4 h-4 text-white" />
@@ -107,11 +102,11 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
                 {/* Opción con submenu: Gastos */}
                 <Button
                   variant="ghost"
-                  className="w-full justify-between h-12 text-white hover:bg-green-700 transition-all duration-200 rounded-lg"
+                  className="w-full justify-between h-12 text-white hover:bg-slate-800 transition-all duration-200 rounded-lg"
                   onClick={() => setOpenExpense(!openExpense)}
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-green-700 flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center">
                       <Plus className="w-4 h-4 text-white" />
                     </div>
                     <span>Gastos</span>
@@ -125,8 +120,9 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
                         key={item.id}
                         variant="ghost"
                         className={cn(
-                          "w-full justify-start h-10 text-green-100 hover:bg-green-700 transition-all duration-200 rounded-lg text-sm",
-                          activeSection === item.id && "bg-green-600 text-white shadow-md",
+                          "w-full justify-start h-10 text-slate-300 hover:bg-slate-800 transition-all duration-200 rounded-lg text-sm",
+                          activeSection === item.id &&
+                            "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg",
                         )}
                         onClick={() => handleSectionChange(item.id)}
                       >
@@ -139,11 +135,11 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
                 {/* Opción con submenu: Ingresos */}
                 <Button
                   variant="ghost"
-                  className="w-full justify-between h-12 text-white hover:bg-green-700 transition-all duration-200 rounded-lg"
+                  className="w-full justify-between h-12 text-white hover:bg-slate-800 transition-all duration-200 rounded-lg"
                   onClick={() => setOpenIncome(!openIncome)}
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-green-700 flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center">
                       <DollarSign className="w-4 h-4 text-white" />
                     </div>
                     <span>Ingresos</span>
@@ -157,8 +153,9 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
                         key={item.id}
                         variant="ghost"
                         className={cn(
-                          "w-full justify-start h-10 text-green-100 hover:bg-green-700 transition-all duration-200 rounded-lg text-sm",
-                          activeSection === item.id && "bg-green-600 text-white shadow-md",
+                          "w-full justify-start h-10 text-slate-300 hover:bg-slate-800 transition-all duration-200 rounded-lg text-sm",
+                          activeSection === item.id &&
+                            "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg",
                         )}
                         onClick={() => handleSectionChange(item.id)}
                       >
@@ -170,7 +167,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
               </div>
 
               {/* Botón de Cerrar Sesión */}
-              <div className="mt-6 pt-6 border-t border-green-700">
+              <div className="mt-6 pt-6 border-t border-slate-800">
                 <Button
                   variant="ghost"
                   className="w-full justify-start gap-3 h-12 text-white hover:bg-red-600 transition-all duration-200 rounded-lg"
