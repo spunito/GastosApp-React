@@ -80,7 +80,7 @@ export const GastosProvider = ({ children }: Props) => {
     try {
       await api.post('/ingresos',{
         id: crypto.randomUUID(),
-        description,
+        description : description || "" ,
         amount:Number(amount),
         title,
         date: date ,
@@ -91,7 +91,7 @@ export const GastosProvider = ({ children }: Props) => {
         payload: {
           id: crypto.randomUUID(), 
           title,  
-          description, 
+          description : description || "" , 
           amount, 
           date: date}});
         refreshData()
@@ -157,7 +157,7 @@ export const GastosProvider = ({ children }: Props) => {
     try {
       await api.put(`/ingresos/${id}`,{
         title,
-        description,
+        description: description || "",
         amount:Number(amount),
         date:date,
       });
@@ -166,7 +166,7 @@ export const GastosProvider = ({ children }: Props) => {
         payload:{
           id,
           title,
-          description,
+          description: description || "",
           amount:Number(amount),
           date:date,
           
