@@ -5,6 +5,7 @@ import { formatDDMMYYYY } from "@/helpers/date"
 import { useGeneralDashboard} from "@/hooks/useGeneralDashboard"
 
 
+
 export const GeneralDashboard = () => {
   const {
     AllMovements,
@@ -16,7 +17,11 @@ export const GeneralDashboard = () => {
     totalGastos,
     totalIngresos,
     state,
+    fechaFinRef,
+    fechaInicioRef
   } = useGeneralDashboard();
+
+  
 
   return (
     <div className="p-8 bg-slate-950 min-h-screen">
@@ -28,9 +33,11 @@ export const GeneralDashboard = () => {
 
       {/* Filtro de fechas */}
       <div className="flex flex-col md:flex-row gap-4 mb-8">
-        <div className="flex-1">
+        <div className="flex-1" >
           <label className="block text-sm text-slate-400 mb-1">Desde</label>
           <input
+            onClick={() => fechaInicioRef.current?.showPicker()}
+            ref={fechaInicioRef}
             type="date"
             value={fechaInicio}
             onChange={(e) => setFechaInicio(e.target.value)}
@@ -40,6 +47,8 @@ export const GeneralDashboard = () => {
         <div className="flex-1">
           <label className="block text-sm text-slate-400 mb-1">Hasta</label>
           <input
+            onClick={() => fechaFinRef.current?.showPicker()}
+            ref={fechaFinRef}
             type="date"
             value={fechaFin}
             onChange={(e) => setFechaFin(e.target.value)}
@@ -150,7 +159,7 @@ export const GeneralDashboard = () => {
                     <span className="text-white">{item.category}</span>
                     <span className="font-medium text-white">{formatCLP(item.amount)}</span>
                   </div>
-                  <div className="w-full bg-slate-800 rounded-full h-2">
+                  <div className="w-full bg-gray-700 rounded-full h-2">
                     <div className={`h-2 rounded-full ${item.color}`} style={{ width: `${item.percentage}%` }} />
                   </div>
                 </div>

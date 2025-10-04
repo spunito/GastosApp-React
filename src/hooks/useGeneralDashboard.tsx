@@ -1,16 +1,17 @@
-"use client"
-
 import { GastosContext } from "@/context/gastos/GastosContext"
 import { pastDate, todayDate } from "@/helpers/date"
 import type { Movements } from "@/types/gastos"
-import { useContext, useState } from "react"
+import { useContext, useRef, useState } from "react"
 
 const categories = [
   { name: "Alimentación", color: "bg-amber-500" },
   { name: "Transporte", color: "bg-rose-500" },
   { name: "Entretenimiento", color: "bg-violet-500" },
+  { name: "Vivienda", color: "bg-emerald-500" },
+  { name: "Servicios básicos", color: "bg-sky-500" },
   { name: "Salud", color: "bg-cyan-500" },
   { name: "Otros", color: "bg-indigo-500" },
+
 ]
 
 export const useGeneralDashboard = () => {
@@ -59,6 +60,8 @@ export const useGeneralDashboard = () => {
     percentage: totalGastos ? Math.round(((gastosPorCategoria[cat.name] || 0) / totalGastos) * 100) : 0,
     color: cat.color,
   }))
+  const fechaInicioRef = useRef<HTMLInputElement>(null);
+  const fechaFinRef = useRef<HTMLInputElement>(null);
 
   return {
     fechaFin,
@@ -73,5 +76,7 @@ export const useGeneralDashboard = () => {
     ingresosFiltrados,
     totalGastos,
     state,
+    fechaInicioRef,
+    fechaFinRef
   }
 }
