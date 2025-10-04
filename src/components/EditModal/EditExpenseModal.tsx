@@ -140,14 +140,15 @@ export const EditExpenseModal = ({ expense, isOpen, onClose }: EditExpenseModalP
               Fecha
             </Label>
             <Input
-              {...register("date", {
-                required: "La fecha es obligatoria",
-              })}
-              onClick={() => fechaGastos.current?.showPicker()}
               id="date"
               type="date"
+              {...register("date", { required: "La fecha es obligatoria" })}
+              ref={(e) => {
+                register("date").ref(e)  // react-hook-form
+                fechaGastos.current = e   // tu ref para showPicker
+              }}
+              onClick={() => fechaGastos.current?.showPicker()}
               className="bg-slate-800 border-slate-700 text-slate-100 focus:border-blue-500 focus:ring-blue-500"
-              ref={fechaGastos}
             />
             {errors.date && <span className="text-red-400 text-sm">{errors.date.message}</span>}
           </div>

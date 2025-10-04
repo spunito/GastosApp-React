@@ -70,11 +70,14 @@ export const AddIncome = () => {
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-2">Fecha *</label>
                   <input
-                    onClick={() => fechaIngresos.current?.showPicker()}
-                    {...register("date", { required: "La fecha es obligatoria" })}
-                    ref={fechaIngresos}
                     type="date"
                     defaultValue={todayDate()}
+                    {...register("date", { required: "La fecha es obligatoria" })}
+                    ref={(e) => {
+                      register("date").ref(e) // asigna el ref a react-hook-form
+                      fechaIngresos.current = e // asigna tu ref local para showPicker
+                    }}
+                    onClick={() => fechaIngresos.current?.showPicker()}
                     className="w-full p-3 border border-slate-700 rounded-lg bg-slate-900 text-white focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors"
                   />
                   {errors.date && <p className="text-red-400 text-sm mt-1">{errors.date.message}</p>}

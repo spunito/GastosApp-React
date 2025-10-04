@@ -122,13 +122,15 @@ export const EditIncomeModal = ({ income, isOpen, onClose }: EditIncomeModalProp
               Fecha
             </Label>
             <Input
-              {...register("date", {
-                required: "La fecha es obligatoria",
-              })}
-              onClick={() => fechaIngresos.current?.showPicker()}
-              ref={fechaIngresos}
               id="date"
               type="date"
+
+              {...register("date", { required: "La fecha es obligatoria" })}
+              ref={(e) => {
+                register("date").ref(e) // ref para react-hook-form
+                fechaIngresos.current = e // tu ref para showPicker
+              }}
+              onClick={() => fechaIngresos.current?.showPicker()}
               className="bg-slate-800 border-slate-700 text-slate-100 focus:border-blue-500 focus:ring-blue-500"
             />
             {errors.date && <span className="text-red-400 text-sm">{errors.date.message}</span>}

@@ -46,14 +46,17 @@ export const AddExpense = () => {
               </div>
 
               {/* Fecha */}
-              <div >
+              <div>
                 <label className="block text-sm font-medium text-slate-300 mb-2">Fecha *</label>
                 <input
-                  onClick={() => fechaGastos.current?.showPicker()}
-                  {...register("date", { required: "La fecha es obligatoria" })}
-                  defaultValue={todayDate()}
-                  ref={fechaGastos}
                   type="date"
+                  defaultValue={todayDate()}
+                  {...register("date", { required: "La fecha es obligatoria" })}
+                  ref={(e) => {
+                    register("date").ref(e) // react-hook-form
+                    fechaGastos.current = e  // tu ref
+                  }}
+                  onClick={() => fechaGastos.current?.showPicker()}
                   className="w-full p-3 border border-slate-700 rounded-lg bg-slate-900 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
                 />
                 {errors.date && <p className="text-red-400 text-sm mt-1">{errors.date.message}</p>}
