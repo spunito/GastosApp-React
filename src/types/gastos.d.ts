@@ -29,3 +29,19 @@ export interface Movements {
   title?:string
   type: "gasto" | "ingreso"; // para saber de dónde viene
 }
+
+export interface Expense {
+  id: string
+  category: string
+  description: string
+  amount: number
+  date: string
+}
+
+export interface Income {
+  id: string
+  title: string
+  description: string
+  amount: number
+  date: string
+}
