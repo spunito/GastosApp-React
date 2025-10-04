@@ -2,7 +2,7 @@
 
 // components/EditIncomeModal.tsx
 import { useForm } from "react-hook-form"
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useRef } from "react"
 import { GastosContext } from "@/context/gastos/GastosContext"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -30,6 +30,7 @@ interface EditIncomeForm {
 
 export const EditIncomeModal = ({ income, isOpen, onClose }: EditIncomeModalProps) => {
   const { Update_Income } = useContext(GastosContext)
+  const fechaIngresos = useRef<HTMLInputElement>(null);
 
   const {
     register,
@@ -121,12 +122,14 @@ export const EditIncomeModal = ({ income, isOpen, onClose }: EditIncomeModalProp
               Fecha
             </Label>
             <Input
-              id="date"
-              type="date"
-              className="bg-slate-800 border-slate-700 text-slate-100 focus:border-blue-500 focus:ring-blue-500"
               {...register("date", {
                 required: "La fecha es obligatoria",
               })}
+              onClick={() => fechaIngresos.current?.showPicker()}
+              ref={fechaIngresos}
+              id="date"
+              type="date"
+              className="bg-slate-800 border-slate-700 text-slate-100 focus:border-blue-500 focus:ring-blue-500"
             />
             {errors.date && <span className="text-red-400 text-sm">{errors.date.message}</span>}
           </div>

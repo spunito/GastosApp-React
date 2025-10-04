@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useRef } from "react"
 import { Button } from "../ui/button"
 import { CardContent, Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { GastosContext } from "@/context/gastos/GastosContext"
@@ -8,6 +8,7 @@ import { todayDate } from "@/helpers/date"
 
 export const AddIncome = () => {
   const { Add_Income } = useContext(GastosContext)
+  const fechaIngresos = useRef<HTMLInputElement>(null);
   const {
     handleSubmit,
     register,
@@ -15,13 +16,11 @@ export const AddIncome = () => {
     formState: { errors },
   } = useForm<IngresoForm>()
 
-  const onSubmit = (data: IngresoForm) => {
-    try {
-      Add_Income(data)
+  const onSubmit = async(data: IngresoForm) => {
+    
+      await Add_Income(data)
       reset()
-    } catch (error) {
-      console.log(error)
-    }
+   
   }
 
   return (
@@ -71,7 +70,9 @@ export const AddIncome = () => {
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-2">Fecha *</label>
                   <input
+                    onClick={() => fechaIngresos.current?.showPicker()}
                     {...register("date", { required: "La fecha es obligatoria" })}
+                    ref={fechaIngresos}
                     type="date"
                     defaultValue={todayDate()}
                     className="w-full p-3 border border-slate-700 rounded-lg bg-slate-900 text-white focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors"

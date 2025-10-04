@@ -1,7 +1,3 @@
-"use client"
-
-import type React from "react"
-
 import { Home, Plus, LogOut, TrendingUp, DollarSign, History, ChevronDown, ChevronRight } from "lucide-react"
 import { Button } from "./ui/button"
 import { cn } from "../lib/utils"
@@ -42,7 +38,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
           </div>
           <div>
             <h2 className="text-2xl font-bold text-white">GastosApp</h2>
-            <p className="text-sm text-slate-400">Gestión Financiera {state.user?.name}</p>
+            <p className="text-sm text-slate-400">{state.user?.name}</p>
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@
 
 // components/EditExpenseModal.tsx
 import { useForm, Controller } from "react-hook-form"
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useRef } from "react"
 import { GastosContext } from "@/context/gastos/GastosContext"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -33,7 +33,7 @@ interface EditExpenseForm {
 
 export const EditExpenseModal = ({ expense, isOpen, onClose }: EditExpenseModalProps) => {
   const { Update_Expense } = useContext(GastosContext)
-
+  const fechaGastos = useRef<HTMLInputElement>(null);
   const {
     register,
     handleSubmit,
@@ -140,12 +140,14 @@ export const EditExpenseModal = ({ expense, isOpen, onClose }: EditExpenseModalP
               Fecha
             </Label>
             <Input
-              id="date"
-              type="date"
-              className="bg-slate-800 border-slate-700 text-slate-100 focus:border-blue-500 focus:ring-blue-500"
               {...register("date", {
                 required: "La fecha es obligatoria",
               })}
+              onClick={() => fechaGastos.current?.showPicker()}
+              id="date"
+              type="date"
+              className="bg-slate-800 border-slate-700 text-slate-100 focus:border-blue-500 focus:ring-blue-500"
+              ref={fechaGastos}
             />
             {errors.date && <span className="text-red-400 text-sm">{errors.date.message}</span>}
           </div>

@@ -1,6 +1,4 @@
-"use client"
-
-import { useContext } from "react"
+import { useContext, useRef } from "react"
 import { Button } from "../ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card"
 import { GastosContext } from "@/context/gastos/GastosContext"
@@ -10,6 +8,7 @@ import { todayDate } from "@/helpers/date"
 
 export const AddExpense = () => {
   const { Add_Expense } = useContext(GastosContext)
+  const fechaGastos = useRef<HTMLInputElement>(null);
   const {
     handleSubmit,
     register,
@@ -17,8 +16,8 @@ export const AddExpense = () => {
     formState: { errors },
   } = useForm<GastosForm>()
 
-  const onSubmit = (data: GastosForm) => {
-    Add_Expense(data)
+  const onSubmit = async(data: GastosForm) => {
+    await Add_Expense(data)
     reset()
   }
 
@@ -47,11 +46,13 @@ export const AddExpense = () => {
               </div>
 
               {/* Fecha */}
-              <div>
+              <div >
                 <label className="block text-sm font-medium text-slate-300 mb-2">Fecha *</label>
                 <input
+                  onClick={() => fechaGastos.current?.showPicker()}
                   {...register("date", { required: "La fecha es obligatoria" })}
                   defaultValue={todayDate()}
+                  ref={fechaGastos}
                   type="date"
                   className="w-full p-3 border border-slate-700 rounded-lg bg-slate-900 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
                 />
