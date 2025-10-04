@@ -1,5 +1,3 @@
-"use client"
-
 import { Trash2, Edit } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { CardContent, Card, CardHeader, CardDescription, CardTitle } from "@/components/ui/card"
@@ -8,19 +6,17 @@ import { GastosContext } from "@/context/gastos/GastosContext"
 import { formatDDMMYYYY } from "../../helpers/date"
 import { formatCLP } from "../../helpers/amountConverter"
 import { EditIncomeModal } from "../EditModal/EditIncomeModal"
+import type { Income } from "@/types/gastos"
 
-interface Income {
-  id: string
-  title: string
-  description: string
-  amount: number
-  date: string
-}
+
+
+const ITEMS_PER_PAGE = 5
 
 export const IncomeHistory = () => {
   const { state, Remove_Income } = useContext(GastosContext)
   const [editingIncome, setEditingIncome] = useState<Income | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [currentPage, setCurrentPage] = useState<number>(1)
 
   const handleEdit = (income: Income) => {
     setEditingIncome(income)
@@ -32,26 +28,49 @@ export const IncomeHistory = () => {
     setEditingIncome(null)
   }
 
+
+  const totalPages = Math.ceil(state.ingresos.length / ITEMS_PER_PAGE)
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
+  const currentIncomes = state.ingresos.slice(startIndex, startIndex + ITEMS_PER_PAGE)
+
+  const handlePrev = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1)
+  }
+
+  const handleNext = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1)
+  }
+
   return (
     <div className="p-4 sm:p-6 md:p-8">
+      {/* Título */}
       <div className="mb-6 sm:mb-8">
         <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">Historial de Ingresos</h1>
         <p className="text-sm sm:text-base text-muted-foreground">Gestiona y edita tus ingresos registrados</p>
       </div>
 
-      <Card className="bg-slate-800/50 border-slate-700 backdrop-blur-sm">
+      {/* Contenedor principal con altura fija */}
+      <Card
+        className="
+          bg-slate-800/50 border-slate-700 backdrop-blur-sm 
+          h-[calc(100vh-200px)] min-h-[500px] 
+          flex flex-col justify-between
+        "
+      >
         <CardHeader>
           <CardTitle className="text-lg sm:text-xl text-white">Todos los Ingresos</CardTitle>
           <CardDescription className="text-xs sm:text-sm text-slate-400">
             Lista completa de ingresos con opciones de edición
           </CardDescription>
         </CardHeader>
-        <CardContent>
+
+        {/* Lista con scroll interno */}
+        <CardContent className="flex-1 overflow-y-auto pr-2">
           {state.ingresos.length === 0 ? (
             <p className="text-center text-slate-400 py-8 text-sm sm:text-base">No hay ingresos registrados</p>
           ) : (
             <div className="space-y-3 sm:space-y-4">
-              {state.ingresos.map((income) => (
+              {currentIncomes.map((income) => (
                 <div
                   key={income.id}
                   className="flex flex-col sm:flex-row sm:items-center justify-between p-3 sm:p-4 bg-slate-900/50 rounded-lg border border-slate-700 hover:bg-slate-900/80 hover:border-slate-600 transition-all gap-3 sm:gap-0"
@@ -81,7 +100,7 @@ export const IncomeHistory = () => {
                         onClick={() => Remove_Income(income.id)}
                         variant="outline"
                         size="sm"
-                        className="h-8 w-8 sm:h-9 sm:w-9 p-0 bg-slate-800 border-slate-700 text-slate-300 hover:bg-red-500/20 hover:text-red-400 hover:border-red-500"
+                        className="h-8 w-8 sm:h-9 sm:w-9 p-0 bg-slate-800 border-slate-700 text-slate-300 hover:text-red-400 hover:border-red-500"
                       >
                         <Trash2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                       </Button>
@@ -92,6 +111,33 @@ export const IncomeHistory = () => {
             </div>
           )}
         </CardContent>
+
+   
+        <div className="p-4 border-t border-slate-700 flex justify-center items-center gap-4">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handlePrev}
+            disabled={currentPage === 1}
+            className="bg-slate-800 border-slate-700 text-slate-300 hover:text-white hover:border-blue-500"
+          >
+            Anterior
+          </Button>
+
+          <span className="text-slate-300 text-sm">
+            Página {currentPage} de {totalPages}
+          </span>
+
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleNext}
+            disabled={currentPage === totalPages}
+            className="bg-slate-800 border-slate-700 text-slate-300 hover:text-white hover:border-blue-500"
+          >
+            Siguiente
+          </Button>
+        </div>
       </Card>
 
       {editingIncome && <EditIncomeModal income={editingIncome} isOpen={isModalOpen} onClose={closeModal} />}
