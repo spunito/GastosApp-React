@@ -100,7 +100,6 @@ export const AuthProvider = ({ children }: Props) => {
 
       navigate('/dashboard');
     } catch (error) {
-      console.log('Error al iniciar sesión', error);
       Swal.fire({
         title: "Error de validación",
         text: "El email o contraseña son incorrectos",
