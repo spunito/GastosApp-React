@@ -1,3 +1,4 @@
+import { AuthContext } from "@/context/auth/AuthContext"
 import { GastosContext } from "@/context/gastos/GastosContext"
 import { pastDate, todayDate } from "@/helpers/date"
 import type { Movements } from "@/types/gastos"
@@ -16,6 +17,7 @@ const categories = [
 
 export const useGeneralDashboard = () => {
   const { state } = useContext(GastosContext)
+  const {state:userState}=useContext(AuthContext);
 
   // Estados para filtro por fecha
   const [fechaInicio, setFechaInicio] = useState(pastDate())
@@ -77,6 +79,7 @@ export const useGeneralDashboard = () => {
     totalGastos,
     state,
     fechaInicioRef,
-    fechaFinRef
+    fechaFinRef,
+    userState
   }
 }

@@ -4,8 +4,6 @@ import { formatCLP } from "@/helpers/amountConverter"
 import { formatDDMMYYYY } from "@/helpers/date"
 import { useGeneralDashboard} from "@/hooks/useGeneralDashboard"
 
-
-
 export const GeneralDashboard = () => {
   const {
     AllMovements,
@@ -18,13 +16,14 @@ export const GeneralDashboard = () => {
     totalIngresos,
     state,
     fechaFinRef,
-    fechaInicioRef
+    fechaInicioRef,
+    userState
   } = useGeneralDashboard();
 
-  
-
   return (
+
     <div className="p-8 bg-slate-950 min-h-screen">
+      {userState.user?.email === "amanda.trujilloe@gmail.com" ? <p>{'Te quiero Amandaaaaaaa <3'} </p> : ''}
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-white mb-2">Dashboard de Gastos</h1>
