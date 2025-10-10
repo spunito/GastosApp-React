@@ -37,7 +37,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
             <TrendingUp className="w-7 h-7 text-white" />
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-white">GastosApp</h2>
+            <h2 className="text-2xl font-bold text-white">Fynnova</h2>
             <p className="text-sm text-slate-400">{state.user?.name}</p>
           </div>
         </div>

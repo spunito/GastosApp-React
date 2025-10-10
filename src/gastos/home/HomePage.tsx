@@ -22,7 +22,7 @@ export const HomePage = () => {
               </h1>
               <p className="text-lg lg:text-xl text-muted-foreground mb-8 text-pretty max-w-2xl">
                 Gestiona tus finanzas personales de manera inteligente. Rastrea gastos, crea presupuestos y toma
-                decisiones financieras informadas con GastosApp.
+                decisiones financieras informadas con Fynnova.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <a href="/login" className="cursor-pointer">
@@ -40,7 +40,7 @@ export const HomePage = () => {
               <div className="relative w-full max-w-lg">
                 <img
                   src={monona}
-                  alt="GastosApp interface preview"
+                  alt="Fynnova interface preview"
                   className="rounded-2xl shadow-2xl w-full h-auto max-w-[400px]"
                 />
               </div>
@@ -147,7 +147,7 @@ export const HomePage = () => {
         <div className="container mx-auto px-6 text-center">
           <h2 className="text-3xl lg:text-4xl font-bold mb-4">¿Listo para tomar control de tus finanzas?</h2>
           <p className="text-lg mb-8 opacity-90 max-w-2xl mx-auto">
-            Únete a miles de usuarios que ya están mejorando su salud financiera con GastosApp
+            Únete a miles de usuarios que ya están mejorando su salud financiera con Fynnova
           </p>
           <Button size="lg" variant="secondary" className="text-lg px-8 py-6">
             Comenzar Gratis

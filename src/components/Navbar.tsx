@@ -10,7 +10,7 @@ export const Navbar = () => {
       <div className="container mx-auto flex items-center justify-between">
         {/* Logo */}
         <a href="/login" className="text-xl font-bold text-white">
-          GastosApp
+          Fynnova
         </a>
 
         {/* Menu desktop */}

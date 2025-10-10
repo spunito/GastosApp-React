@@ -48,7 +48,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ activeSection, onSection
               </button>
             </div>
             <div>
-              <h2 className="text-lg font-bold text-white">GastosApp</h2>
+              <h2 className="text-lg font-bold text-white">Fynnova</h2>
               <p className="text-xs text-slate-400">{userName}</p>
             </div>
           </div>

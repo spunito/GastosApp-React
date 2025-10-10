@@ -6,7 +6,7 @@ export const Footer = () => {
             <div className="flex flex-col items-center text-center space-y-6">
             {/* Logo y descripción */}
             <div className="max-w-md">
-                <h3 className="font-bold text-xl sm:text-2xl mb-3 text-primary">GastosApp</h3>
+                <h3 className="font-bold text-xl sm:text-2xl mb-3 text-primary">Fynnova</h3>
                 <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
                 La forma más inteligente de gestionar tus finanzas personales.
                 </p>
@@ -42,7 +42,7 @@ export const Footer = () => {
             {/* Copyright */}
             <div className="border-t border-border w-full max-w-2xl pt-6">
                 <p className="text-muted-foreground text-xs sm:text-sm">
-                &copy; {new Date().getFullYear()} GastosApp. Todos los derechos reservados.
+                &copy; {new Date().getFullYear()} Fynnova. Todos los derechos reservados.
                 </p>
             </div>
             </div>

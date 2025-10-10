@@ -1,4 +1,4 @@
-# GastosApp Frontend | React + Typescript
+# Fynnova Frontend | React + Typescript
 
 # Descripción
 
