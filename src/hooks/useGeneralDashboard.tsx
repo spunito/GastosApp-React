@@ -14,7 +14,7 @@ const categories = [
   { name: "Otros", color: "bg-indigo-500" },
 
 ]
-
+console.log("xd")
 export const useGeneralDashboard = () => {
   const { state } = useContext(GastosContext)
   const {state:userState}=useContext(AuthContext);
